@@ -1,10 +1,10 @@
 import { createApi, fetchBaseQuery } from '@reduxjs/toolkit/query/react';
 import { API_BASE_URL } from '../../settings';
-import { setAuth } from '../../store';
+// import { setAuth } from '../../store';
 
 
 const authApi = createApi({
-  reducerPath: 'auth',
+  reducerPath: 'auth2',
   baseQuery: fetchBaseQuery({
     baseUrl: API_BASE_URL,
   }),
@@ -28,8 +28,6 @@ const authApi = createApi({
             const { data } = await queryFulfilled;
             debugger;
             console.log(1)
-            console.log(setAuth(data));
-            dispatch(setAuth(data))
           } catch (error) {
             console.log(error);
           }
@@ -39,8 +37,8 @@ const authApi = createApi({
   }
 });
 
-export const {
-  useLoginMutation,
-} = authApi;
+// export const {
+//   useLoginMutation,
+// } = authApi;
 
 export { authApi };

@@ -1,35 +1,30 @@
 import { useState } from "react";
-import { store, useLoginMutation } from "../store";
+import { loginThunk, store, useLoginMutation } from "../store";
 import { useSelector } from "react-redux";
+import useThunk from "../hooks/use-thunk";
 
 function LoginPage() {
 
   const [login, setLogin] = useState('');
   const [password, setPassword] = useState('');
 
-  const [makeLogin, addPhotoResults] = useLoginMutation();
+  const [doLogin, isLogin, loginError] = useThunk(loginThunk)
+
+  // const [makeLogin, addPhotoResults] = useLoginMutation();
 
   const handleLoginChange = (event) => {
     setLogin(event.target.value);
   };
+
   const handlePasswordChange = (event) => {
     setPassword(event.target.value);
   };
+
   const handleSubmit = (event) => {
     event.preventDefault();
-    const loginRequest = { login, password };
-    makeLogin(loginRequest);
+    const loginRequest = { username: login, password };
+    doLogin(loginRequest);
   };
-
-  if (!addPhotoResults.isLoading && addPhotoResults.data) {
-    console.log(addPhotoResults.data.data);
-  }
-
-  console.log(store.getState());
-
-  useSelector((state) => {
-    window.state = state;
-  });
 
   return (
     <form className="container" onSubmit={handleSubmit}>
