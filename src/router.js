@@ -2,6 +2,7 @@ import { createBrowserRouter } from "react-router-dom";
 import App from "./App";
 import LoginPage from "./pages/LoginPage";
 import DashboardPage from "./pages/DashboardPage";
+import AuthGuard from "./components/AuthGuard";
 
 const router = createBrowserRouter([
   {
@@ -10,11 +11,11 @@ const router = createBrowserRouter([
     children: [
       {
         path: "login",
-        element: <LoginPage />
+        element: <AuthGuard><LoginPage /></AuthGuard>
       },
       {
         path: "page1/",
-        element: <div>page1</div>
+        element: <AuthGuard><div>page1</div></AuthGuard>
       },
       {
         path: "page2/",
@@ -22,7 +23,7 @@ const router = createBrowserRouter([
       },
       {
         path: "dashboard",
-        element: <DashboardPage />
+        element: <AuthGuard><DashboardPage /></AuthGuard>
       }
     ]
   },

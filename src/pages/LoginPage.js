@@ -2,13 +2,19 @@ import { useState } from "react";
 import { loginThunk, store, useLoginMutation } from "../store";
 import { useSelector } from "react-redux";
 import useThunk from "../hooks/use-thunk";
+import { useNavigate } from "react-router-dom";
 
 function LoginPage() {
 
   const [login, setLogin] = useState('');
   const [password, setPassword] = useState('');
+  const navigate = useNavigate();
 
-  const [doLogin, isLogin, loginError] = useThunk(loginThunk)
+  const [doLogin, isLogin, loginError] = useThunk(loginThunk);
+
+  const { isAuthenticated } = useSelector((state) => {
+    return state.auth;
+  });
 
   // const [makeLogin, addPhotoResults] = useLoginMutation();
 
@@ -25,6 +31,10 @@ function LoginPage() {
     const loginRequest = { username: login, password };
     doLogin(loginRequest);
   };
+
+  if (isAuthenticated) {
+    navigate('/dashboard');
+  }
 
   return (
     <form className="container" onSubmit={handleSubmit}>
