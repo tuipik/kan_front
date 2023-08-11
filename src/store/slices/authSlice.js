@@ -12,10 +12,7 @@ const authSlice = createSlice({
   name: 'auth',
   initialState,
   reducers: {
-    logout: ({ state }) => {
-      console.log('in logout');
-      return initialState;
-    }
+    logout: ({ state }) => initialState 
   },
   extraReducers(builder) {
     // Login
