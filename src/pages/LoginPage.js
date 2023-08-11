@@ -2,15 +2,20 @@ import { useState } from "react";
 import { loginThunk, store, useLoginMutation } from "../store";
 import { useSelector } from "react-redux";
 import useThunk from "../hooks/use-thunk";
+import { useNavigate } from "react-router-dom";
+import { translatedMessages } from "../translations";
 
 function LoginPage() {
 
   const [login, setLogin] = useState('');
   const [password, setPassword] = useState('');
+  const navigate = useNavigate();
 
-  const [doLogin, isLogin, loginError] = useThunk(loginThunk)
+  const [doLogin, isLogin, loginError] = useThunk(loginThunk);
 
-  // const [makeLogin, addPhotoResults] = useLoginMutation();
+  const { isAuthenticated } = useSelector((state) => {
+    return state.auth;
+  });
 
   const handleLoginChange = (event) => {
     setLogin(event.target.value);
@@ -26,6 +31,12 @@ function LoginPage() {
     doLogin(loginRequest);
   };
 
+  if (isAuthenticated) {
+    navigate('/dashboard');
+  }
+
+  const errorMessage = loginError ? translatedMessages[loginError.message] : '';
+
   return (
     <form className="container" onSubmit={handleSubmit}>
       <div className="mb-3">
@@ -37,6 +48,7 @@ function LoginPage() {
         <label htmlFor="password" className="form-label">Пароль</label>
         <input type="password" className="form-control" id="password" value={password} onChange={handlePasswordChange} />
       </div>
+      <div style={{color: "red"}}>{errorMessage}</div>
       <button type="submit" className="btn btn-primary">Війти</button>
     </form>
   );

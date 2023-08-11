@@ -1,6 +1,37 @@
-import { Link } from "react-router-dom";
+import { useDispatch, useSelector } from "react-redux";
+import { Link, useNavigate } from "react-router-dom";
+import { logout } from "../store/slices/authSlice";
+import { tasksApi } from "../store/apis/tasksApi";
 
 function Navbar() {
+
+  const dispatch = useDispatch();
+  const navigate = useNavigate();
+
+  const { data } = useSelector((state) => {
+    return state.auth;
+  });
+
+  const handleExitClick = () => {
+    dispatch(logout());
+    dispatch(tasksApi.util.resetApiState());
+    navigate("/login");
+  };
+
+  let renderdRightPart = data && data.username
+    ? <>
+      <a className="nav-link disabled" href="#" tabIndex="-1" aria-disabled="true">{data.username}</a>
+      <span className="navbar-text" onClick={handleExitClick} style={{ cursor: "pointer" }} >
+        Вихід
+      </span>
+    </>
+
+    : <li className="nav-item">
+      <Link className="nav-link" to={'login'}>Логін</Link>
+    </li>;
+
+
+
   return (
     <nav className="navbar navbar-expand-lg navbar-light bg-light">
       <div className="container-fluid">
@@ -24,9 +55,7 @@ function Navbar() {
             </li>
           </ul>
           <ul className="navbar-nav justify-content-end">
-            <li className="nav-item">
-              <Link className="nav-link" to={'login'}>Логін</Link>
-            </li>
+            {renderdRightPart}
           </ul>
         </div>
       </div>
