@@ -1,24 +1,23 @@
 import { configureStore } from "@reduxjs/toolkit";
 import { setupListeners } from "@reduxjs/toolkit/dist/query";
 import { authReducer } from "./slices/authSlice";
+import { tasksApi } from "./apis/tasksApi";
 
 export const store = configureStore({
   reducer: {
     auth: authReducer,
-    // [authApi.reducerPath]: authApi.reducer
+    [tasksApi.reducerPath]: tasksApi.reducer
   },
   middleware: (getDefaultMiddleware) => {
-    return getDefaultMiddleware();
-    // .concat(authApi.middleware);
+    return getDefaultMiddleware()
+      .concat(tasksApi.middleware);
   }
 });
 
 setupListeners(store.dispatch);
 
-// export {
-//   useLoginMutation
-// } from './apis/authApi';
+export {
+  useFetchTasksQuery
+} from './apis/tasksApi';
 
 export * from './thunks/login';
-
-// export { setAuth, logout } from './slices/authSlice';
