@@ -24,14 +24,28 @@ const tasksApi = createApi({
             url: 'tasks',
             method: 'GET'
           }
-        }
+        },
+        providesTags: ['Tasks']
+      }),
+      updateTask: builder.mutation({
+        query: ({ task, ...patch} ) => {
+         console.log('task ', task);
+         console.log('patch', patch);
+         return {
+          url: `tasks/${task.id}`,
+          method: 'PATCH',
+          body: patch
+         } 
+        },
+        invalidatesTags: ['Tasks']
       })
     }
   }
 });
 
 export const {
-  useFetchTasksQuery
+  useFetchTasksQuery,
+  useUpdateTaskMutation,
 } = tasksApi;
 
 export { tasksApi };
