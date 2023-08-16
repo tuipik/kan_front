@@ -49,7 +49,7 @@ function LoginPage() {
         <input type="password" className="form-control" id="password" value={password} onChange={handlePasswordChange} />
       </div>
       <div style={{color: "red"}}>{errorMessage}</div>
-      <button type="submit" className="btn btn-primary">Війти</button>
+      <button type="submit" className="btn btn-primary">{isLogin? 'Вхід...' : 'Війти'}</button>
     </form>
   );
 }

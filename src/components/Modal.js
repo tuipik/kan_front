@@ -5,7 +5,7 @@ function Modal({ head, body, show, handleClose, footer }) {
 
   return (
     <>
-      <BtsrpModal show={show} onHide={handleClose}>
+      <BtsrpModal show={show} onHide={handleClose} className="modal-lg">
         <BtsrpModal.Header closeButton>
           <BtsrpModal.Title>{head}</BtsrpModal.Title>
         </BtsrpModal.Header>

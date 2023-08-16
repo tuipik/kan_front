@@ -6,6 +6,7 @@ import UserInfo from "./UserInfo";
 import { translatedTaskaskStatuses } from "../translations";
 import { useUpdateTaskMutation } from "../store";
 import useShowErrors from "../hooks/use-show-errors";
+import CommentList from "./ComentList";
 
 export default function Task({ task }) {
 
@@ -32,7 +33,7 @@ export default function Task({ task }) {
     </>
   );
 
-  const renderedStatus = <select value={task.status} onChange={handleStatusSelect}>
+  const renderedStatus = <select value={task.status} onChange={handleStatusSelect} className="form-select">
     {Object.entries(translatedTaskaskStatuses).map((key, value) => {
       return <option id={key[0]} value={key[0]}>{key[1]}</option>;
     })}
@@ -43,13 +44,16 @@ export default function Task({ task }) {
       <div>Виконавець: <UserInfo data={task.user} /></div>
       <div>Категорія: {task.category}</div>
       <div>Квартал: {task.quarter_display_value}</div>
-      <div>Створено: <input type="datetime-local" value={task.created} readOnly /></div>
-      <div>Оновлено: <input type="datetime-local" value={task.updated} readOnly /></div>
+      <div>Створено: <i>{task.created}</i></div>
+      <div>Оновлено: <i>{task.updated}</i></div>
       <div>Статус: {renderedStatus}</div>
+    
+      <CommentList task={task} />
     </>
   );
 
-  const renderedFooter = <Button variant="secondary" onClick={handleClose}>Закрити</Button>;
+
+  const renderedFooter = <Button variant="success" onClick={handleClose}>Закрити</Button>;
   
 
   return (

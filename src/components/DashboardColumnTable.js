@@ -19,7 +19,7 @@ export default function DashboardColumnTable({ tableName, columns, data }) {
 
   return (
     <div className="col">
-      <h3>{tableName}</h3>
+      <h5 style={{'textAlign': 'center'}}>{tableName}</h5>
       <SortableTable data={data} config={config} keyFn={keyFn} />
     </div>
   );
