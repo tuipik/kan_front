@@ -60,7 +60,7 @@ export default function CommentList({ task }) {
         />
         <label htmlFor="commentTextarea">Новий коментар</label>
         <br />
-        <button className="btn btn-success">{data.isLoading ? 'Відправка...' : 'Відправити'}</button>
+        <button className="btn btn-primary">{data.isLoading ? 'Відправка...' : 'Відправити'}</button>
       </form>
       <br />
       {renderedComments}

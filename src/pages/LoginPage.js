@@ -1,9 +1,11 @@
 import { useState } from "react";
-import { loginThunk, store, useLoginMutation } from "../store";
-import { useSelector } from "react-redux";
+import { loginThunk, showToast, store, useLoginMutation } from "../store";
+import { useDispatch, useSelector } from "react-redux";
 import useThunk from "../hooks/use-thunk";
 import { useNavigate } from "react-router-dom";
 import { translatedMessages } from "../translations";
+import Input from "../components/input/Input";
+import useShowToast from "../hooks/use-show-toast";
 
 function LoginPage() {
 
@@ -12,6 +14,8 @@ function LoginPage() {
   const navigate = useNavigate();
 
   const [doLogin, isLogin, loginError] = useThunk(loginThunk);
+
+  const showToast = useShowToast();
 
   const { isAuthenticated } = useSelector((state) => {
     return state.auth;
@@ -37,18 +41,27 @@ function LoginPage() {
 
   const errorMessage = loginError ? translatedMessages[loginError.message] : '';
 
+  if (errorMessage) {
+    showToast({header: 'Помилка авторізації', body: errorMessage, bg: 'warning'});
+  }
+
   return (
     <form className="container" onSubmit={handleSubmit}>
-      <div className="mb-3">
-        <label htmlFor="login" className="form-label">Логін</label>
-        <input className="form-control" id="login" aria-describedby="loginHelp" value={login} onChange={handleLoginChange} />
-        {/* <div id="loginHelp" className="form-text">We'll never share your email with anyone else.</div> */}
-      </div>
-      <div className="mb-3">
-        <label htmlFor="password" className="form-label">Пароль</label>
-        <input type="password" className="form-control" id="password" value={password} onChange={handlePasswordChange} />
-      </div>
-      <div style={{color: "red"}}>{errorMessage}</div>
+      <Input
+        id="login"
+        placeholder="Логін"
+        value={login}
+        onChange={handleLoginChange}
+        required
+      />
+      <Input
+        id="password"
+        placeholder="Пароль"
+        value={password}
+        onChange={handlePasswordChange}
+        type="password"
+        required
+      />
       <button type="submit" className="btn btn-primary">{isLogin? 'Вхід...' : 'Війти'}</button>
     </form>
   );

@@ -1,15 +1,25 @@
 import useShowErrors from "../../hooks/use-show-errors";
+import useShowSuccess from "../../hooks/use-show-success";
 import { useUpdateTaskMutation } from "../../store";
 import { translatedTaskaskStatuses } from "../../translations";
 
 export default function TaskStatus( { task }) {
   const [doUpdate, data] = useUpdateTaskMutation();
+
+  const showSuccess = useShowSuccess();
   const showErrors = useShowErrors();
 
   const handleStatusSelect = (event) => {
     const newStatus = event.target.value;
     doUpdate({task, status: newStatus, user: task.user.id})
       .unwrap()
+      .then((result) => {
+        const newStatus = result.data[0].status_display_value;
+        showSuccess(
+          {
+            body: `Статус задачі ${task.name } успішно змінено на "${newStatus}"`
+          });
+      })
       .catch((error) => {
         showErrors(error.data);
       });
