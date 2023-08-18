@@ -1,6 +1,6 @@
 import { Fragment } from 'react';
 
-function Table({ data, config, keyFn }) {
+function Table({ data, config, keyFn, striped }) {
   const renderedHeaders = config.map((column) => {
     if (column.header) {
       return <Fragment key={column.label}>{column.header()}</Fragment>;
@@ -25,8 +25,10 @@ function Table({ data, config, keyFn }) {
     );
   });
 
+  const tableClass = striped ? "table table-striped" : "table";
+
   return (
-    <table className="table table-striped">
+    <table className={tableClass}>
       <thead>
         <tr>{renderedHeaders}</tr>
       </thead>

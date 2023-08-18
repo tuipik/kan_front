@@ -1,7 +1,8 @@
 import { useDispatch, useSelector } from "react-redux";
 import { Link, useNavigate } from "react-router-dom";
-import { logout } from "../store/slices/authSlice";
+import { logout } from "../store";
 import { tasksApi } from "../store/apis/tasksApi";
+import { commentsApi } from "../store/apis/commentsApi";
 
 function Navbar() {
 
@@ -15,6 +16,7 @@ function Navbar() {
   const handleExitClick = () => {
     dispatch(logout());
     dispatch(tasksApi.util.resetApiState());
+    dispatch(commentsApi.util.resetApiState());
     navigate("/login");
   };
 
