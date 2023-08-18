@@ -1,5 +1,5 @@
 import SortableTable from "./SortableTable";
-import Task from "./Task";
+import TaskDetails from "./task/TaskDetails";
 
 export default function DashboardColumnTable({ tableName, columns, data }) {
 
@@ -8,7 +8,7 @@ export default function DashboardColumnTable({ tableName, columns, data }) {
       label: column.name,
       render: (task) => {
         if (task.status === column.status)
-          return <Task task={task} />
+          return <TaskDetails task={task} />
       },
     }
   });
