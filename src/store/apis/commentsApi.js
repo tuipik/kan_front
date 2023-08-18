@@ -12,7 +12,6 @@ const commentsApi = createApi({
     return {
       fetchComments: builder.query({
         query: (taskId) => {
-          console.log(taskId);
           return {
             url: 'comments',
             method: 'GET',

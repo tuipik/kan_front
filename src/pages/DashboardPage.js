@@ -12,7 +12,7 @@ function DashboardPage() {
   if (isFetching) {
     content = <div>Завантаженя...</div>
   } else if (error) {
-    content = <div>Помилка завантаження задач</div>
+    content = <div style={{color: 'red'}}>Помилка завантаження задач</div>
   } else {
     const dashboardTablesData = [
       {

@@ -50,15 +50,15 @@ export default function CommentList({ task }) {
   return (
     <>
       <br />
-      <form class="form-floating" onSubmit={handleFormSubmit}>
+      <form className="form-floating" onSubmit={handleFormSubmit}>
         <textarea
-          class="form-control"
+          className="form-control"
           placeholder="Leave a comment here"
           id="commentTextarea"
           value={body} 
           onChange={handleBodyChange}
         />
-        <label for="commentTextarea">Новий коментар</label>
+        <label htmlFor="commentTextarea">Новий коментар</label>
         <br />
         <button className="btn btn-success">{data.isLoading ? 'Відправка...' : 'Відправити'}</button>
       </form>

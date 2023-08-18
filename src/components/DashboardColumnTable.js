@@ -20,7 +20,7 @@ export default function DashboardColumnTable({ tableName, columns, data }) {
   return (
     <div className="col">
       <h5 style={{'textAlign': 'center'}}>{tableName}</h5>
-      <SortableTable data={data} config={config} keyFn={keyFn} />
+      <SortableTable data={data} config={config} keyFn={keyFn} striped />
     </div>
   );
 }
