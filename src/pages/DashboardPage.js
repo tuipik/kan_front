@@ -2,10 +2,17 @@ import { useSelector } from "react-redux"
 import { authApi } from "../store/apis/authApi";
 import { useFetchTasksQuery } from "../store";
 import DashboardColumnTable from "../components/DashboardColumnTable";
+import TaskCreation from "../components/task/TaskCreation";
 
 function DashboardPage() {
 
   const { data, error, isFetching } = useFetchTasksQuery();
+
+  const isAdmin = useSelector((state) => state.auth.data.is_admin);
+
+  const renderedCreateBtn = isAdmin
+    ? <TaskCreation />
+    : '';
 
   let content;
 
@@ -34,7 +41,11 @@ function DashboardPage() {
     ];
 
     const renderedDashboardTables = dashboardTablesData.map((table) => {
-      return <DashboardColumnTable key={table.name} tableName={table.name} columns={table.columns} data={data.data} />
+      const tableData = data.data.filter((task) => {
+        const tableStatuses = table.columns.map((column) => column.status);
+        return tableStatuses.includes(task.status);
+      });
+      return <DashboardColumnTable key={table.name} tableName={table.name} columns={table.columns} data={tableData} />
     });
 
     content =
@@ -45,6 +56,7 @@ function DashboardPage() {
 
   return (
     <div>
+      {renderedCreateBtn}
       {content}
     </div>
   )

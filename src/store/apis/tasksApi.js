@@ -14,10 +14,20 @@ const tasksApi = createApi({
         query: () => {
           return {
             url: 'tasks',
-            method: 'GET'
+            method: 'GET',
           }
         },
         providesTags: ['Tasks']
+      }),
+      createTask: builder.mutation({
+        query: (data) => {
+          return {
+            url: 'tasks',
+            method: 'POST',
+            body: data,
+          } 
+        },
+        invalidatesTags: (result, error) => error ? [] : ['Tasks'],
       }),
       updateTask: builder.mutation({
         query: ({ task, ...patch} ) => {
@@ -28,6 +38,25 @@ const tasksApi = createApi({
           } 
         },
         invalidatesTags: (result, error) => error ? [] : ['Tasks'],
+      }),
+      deleteTask: builder.mutation({
+        query: ( task ) => {
+          return {
+            url: `tasks/${task.id}`,
+            method: 'DELETE',
+          }
+        },
+        invalidatesTags: (result, error) => error ? [] : ['Tasks'],
+      }),
+      createComment: builder.mutation({
+        query: (data) => {
+          return {
+            url: 'comments',
+            method: 'POST',
+            body: data,
+          }
+        },
+        invalidatesTags: (result, error) => error ? [] : ['Tasks'],
       })
     }
   }
@@ -35,7 +64,9 @@ const tasksApi = createApi({
 
 export const {
   useFetchTasksQuery,
+  useCreateTaskMutation,
   useUpdateTaskMutation,
+  useDeleteTaskMutation,
 } = tasksApi;
 
 export { tasksApi };

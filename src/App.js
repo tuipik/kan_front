@@ -11,8 +11,8 @@ const { config } = useSelector((state) => {
 });
 
   return (
-    <div>
-      <Navbar />
+    <div className="mx-5">
+     <Navbar />
       <Toast config={config} />
       <div id="detail">
         <Outlet />
