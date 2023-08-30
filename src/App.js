@@ -1,8 +1,7 @@
 import { Outlet } from "react-router-dom";
 import Navbar from "./components/Navbar";
 import Toast from "./components/Toast";
-import { useDispatch, useSelector } from "react-redux";
-import { showToast } from "./store";
+import { useSelector } from "react-redux";
 
 function App() {
 

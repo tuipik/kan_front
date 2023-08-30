@@ -3,6 +3,7 @@ import App from "./App";
 import LoginPage from "./pages/LoginPage";
 import DashboardPage from "./pages/DashboardPage";
 import AuthGuard from "./components/AuthGuard";
+import DepartmentsPage from "./pages/DepartmentsPage";
 
 const router = createBrowserRouter([
   {
@@ -16,6 +17,10 @@ const router = createBrowserRouter([
       {
         path: "dashboard",
         element: <AuthGuard><DashboardPage /></AuthGuard>
+      },
+      {
+        path: "departments",
+        element: <AuthGuard><DepartmentsPage /></AuthGuard>
       }
     ]
   },
