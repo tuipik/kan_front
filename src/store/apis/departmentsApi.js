@@ -18,6 +18,16 @@ const departmentsApi = createApi({
           }
         },
         providesTags: ['Departments']
+      }),
+      createDepartment: builder.mutation({
+        query: (name) => {
+          return {
+            url: 'departments',
+            method: 'POST',
+            body: {name}
+          }
+        },
+        invalidatesTags: ['Departments']
       })
     }
   }
@@ -25,6 +35,7 @@ const departmentsApi = createApi({
 
 export const {
   useFetchDepartmentsQuery,
+  useCreateDepartmentMutation,
 } = departmentsApi;
 
 export {departmentsApi};

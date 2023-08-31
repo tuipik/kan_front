@@ -3,12 +3,24 @@ import Department from "./Department";
 import DepartmentCreation from "./DepartmentCreation";
 
 export default function  DepartmentList () {
-  const { data: {data}, error, isFetching } = useFetchDepartmentsQuery();
+  const { data, error, isFetching } = useFetchDepartmentsQuery();
 
-  const renderedDepartments =
-    <ol>
-      { data.map((department) => <li key={department.id}><Department data={department} /></li>) }
-    </ol>;
+  let renderedDepartments;
+
+  if (data?.data) {
+    renderedDepartments =
+      <ul className="list-group list-group-flush">
+        {data.data.map((department) => <li className="list-group-item" key={department.id}>
+          <Department data={department} />
+        </li>) }
+      </ul>;
+  } else if (isFetching) {
+    renderedDepartments = <div>Заванаження департаментів...</div>
+  } else {
+    console.log(error);
+    renderedDepartments = <div>Помилка завантаженяя департаментів</div>
+  }
+
 
   return (
     <>

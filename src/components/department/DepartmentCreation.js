@@ -16,7 +16,7 @@ export default function DepartmentCreation() {
         show={show}
         handleClose={handleClose}
         head="Новий департамент"
-        body={<DepartmentForm />}
+        body={<DepartmentForm handleClose={handleClose} />}
       />
     </>
   )

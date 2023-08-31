@@ -46,6 +46,7 @@ export {
 
 export {
   useFetchDepartmentsQuery,
+  useCreateDepartmentMutation,
 } from './apis/departmentsApi'
 
 
