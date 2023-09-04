@@ -37,7 +37,14 @@ export default function TaskForm ({ handleClose }) {
     setNewTask({...newTask, [attr]: value});
   };
 
-  const renderedUserSelect = useAccountsSelect({user: newTask.user, id: 'user', handleAttrChange})
+  const renderedUserSelect = useAccountsSelect(
+    {
+      user: newTask.user,
+      id: 'user',
+      label: 'Обрати користувача',
+      handleAttrChange
+    }
+  )
 
   const handleSubmit = (event) => {
     event.preventDefault();

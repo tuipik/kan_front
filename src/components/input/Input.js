@@ -22,7 +22,6 @@ export default function Input({ label, onChange, errorMessage, className, ...inp
         onChange={onChange}
         focused={focused.toString()}
         onBlur={handleOnBlur}
-
       />
       {focused ? <span className="kan">{errorMessage}</span> : ''}
     </div>

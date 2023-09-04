@@ -1,28 +1,29 @@
 import Input from "../input/Input";
 import {useState} from "react";
-import {useCreateDepartmentMutation} from "../../store";
+import {useCreateDepartmentMutation, useUpdateDepartmentMutation} from "../../store";
 import useShowErrors from "../../hooks/use-show-errors";
 import useShowSuccess from "../../hooks/use-show-success";
 import useAccountsSelect from "../../hooks/use-accounts-select";
 import Checkbox from "../checkbox/Checkbox";
 
-export default function DepartmentForm({ handleClose, incomeDepartment }) {
+export default function DepartmentForm({ handleClose, incomeDepartment, create }) {
 
   const [department, setDepartment] = useState(incomeDepartment);
 
-  const [doCreateDepartment, data] = useCreateDepartmentMutation();
+  const mutation = create ? useCreateDepartmentMutation : useUpdateDepartmentMutation;
+
+  const [doMutation, data] = mutation();
 
   const showErrors = useShowErrors();
 
   const showSuccess = useShowSuccess();
 
-
   const handleSubmit = (e) => {
     e.preventDefault();
-    doCreateDepartment(department)
+    doMutation(department)
       .unwrap()
       .then((result) => {
-        showSuccess({body: `Департамент ${department.name} успішно створено`});
+        showSuccess({body: `Департамент ${department.name} успішно збережено`});
         handleClose();
       })
       .catch((error) => {
@@ -37,7 +38,13 @@ export default function DepartmentForm({ handleClose, incomeDepartment }) {
     setDepartment({...department, [attr]: value});
   };
 
-  const renderedUserSelect = useAccountsSelect({user: department.head, id: "head", handleAttrChange});
+  const renderedUserSelect = useAccountsSelect(
+    {
+      user: department.head,
+      id: "head",
+      label: "Обрати керівника",
+      handleAttrChange
+    });
 
   return (
     <form onSubmit={handleSubmit}>
@@ -46,8 +53,9 @@ export default function DepartmentForm({ handleClose, incomeDepartment }) {
         placeholder="Назва"
         required
         onChange={handleAttrChange}
+        defaultValue={incomeDepartment.name}
       />
-      <div className="mb-3">{renderedUserSelect}</div>
+      <div className="mb-3">{!create && renderedUserSelect}</div>
       <Checkbox value={department.is_verifier} onChange={handleAttrChange} id="is_verifier" label="Перевіряючий відділ" />
       <Input
         id="ordering"
@@ -57,7 +65,7 @@ export default function DepartmentForm({ handleClose, incomeDepartment }) {
         type="number"
         required
       />
-      <button className="btn btn-primary">{data.isLoading ? 'Створення...' : 'Створити'}</button>
+      <button className="btn btn-primary">{data.isLoading ? 'Збереження...' : 'Зберегти'}</button>
     </form>
   )
 }

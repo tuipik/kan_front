@@ -28,6 +28,19 @@ const departmentsApi = createApi({
           }
         },
         invalidatesTags: ['Departments']
+      }),
+      updateDepartment: builder.mutation({
+        query: (department) => {
+          const departmentId = department.id
+          const body = {...department};
+          delete body.id;
+          return {
+            url: `departments/${departmentId}`,
+            method: 'PATCH',
+            body
+          }
+        },
+        invalidatesTags: ['Departments']
       })
     }
   }
@@ -36,6 +49,7 @@ const departmentsApi = createApi({
 export const {
   useFetchDepartmentsQuery,
   useCreateDepartmentMutation,
+  useUpdateDepartmentMutation,
 } = departmentsApi;
 
 export {departmentsApi};
