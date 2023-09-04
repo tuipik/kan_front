@@ -20,11 +20,11 @@ const departmentsApi = createApi({
         providesTags: ['Departments']
       }),
       createDepartment: builder.mutation({
-        query: (name) => {
+        query: (body) => {
           return {
             url: 'departments',
             method: 'POST',
-            body: {name}
+            body
           }
         },
         invalidatesTags: ['Departments']

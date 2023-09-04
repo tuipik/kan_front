@@ -2,12 +2,11 @@ import { Button } from "react-bootstrap";
 import Modal from "../Modal";
 import useShow from "../../hooks/use-show";
 import DepartmentForm from "./DepartmentForm";
+import DepartmentModel from "./DepartmentModel";
 
 export default function DepartmentCreation() {
 
   const { show, handleShow, handleClose } = useShow();
-
-  const body = <div>body</div>
 
   return (
     <>
@@ -16,8 +15,8 @@ export default function DepartmentCreation() {
         show={show}
         handleClose={handleClose}
         head="Новий департамент"
-        body={<DepartmentForm handleClose={handleClose} />}
+        body={<DepartmentForm handleClose={handleClose} incomeDepartment={new DepartmentModel()}/>}
       />
     </>
-  )
+  );
 }

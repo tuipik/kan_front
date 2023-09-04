@@ -31,5 +31,5 @@ export default function  DepartmentList () {
       <h5 className="text-center">Список департаментів:</h5>
       {renderedDepartments}
     </>
-  )
+  );
 }

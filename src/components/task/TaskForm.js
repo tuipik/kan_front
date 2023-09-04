@@ -1,9 +1,11 @@
 import { useState } from "react";
-import { showToast, useCreateTaskMutation, useFetchAccountsQuery, useFetchDepartmentsQuery } from "../../store";
-import UserInfo from "../UserInfo";
+import { useCreateTaskMutation, useFetchDepartmentsQuery } from "../../store";
 import useShowErrors from "../../hooks/use-show-errors";
 import Input from "../input/Input";
 import useShowSuccess from "../../hooks/use-show-success";
+import useAccountsSelect from "../../hooks/use-accounts-select";
+import UserModel from "../user/UserModel";
+import DepartmentModel from "../department/DepartmentModel";
 
 class TaskModel {
   name = "";
@@ -12,14 +14,13 @@ class TaskModel {
   otk_time_estimate = 0;
   quarter = "";
   category = "";
-  user = null;
-  department = null;
+  user = new UserModel();
+  department = new DepartmentModel();
 }
 
 
 export default function TaskForm ({ handleClose }) {
 
-  const { data: users, error: accountsErrors, isFetching: isAccountsFetching } = useFetchAccountsQuery();
   const { data: departments, error: departmentsErrors, isFetching: isDepartmentsFetching } = useFetchDepartmentsQuery();
 
   const [doCreateTask, createTaskData] = useCreateTaskMutation();
@@ -35,6 +36,8 @@ export default function TaskForm ({ handleClose }) {
 
     setNewTask({...newTask, [attr]: value});
   };
+
+  const renderedUserSelect = useAccountsSelect({user: newTask.user, id: 'user', handleAttrChange})
 
   const handleSubmit = (event) => {
     event.preventDefault();
@@ -52,21 +55,6 @@ export default function TaskForm ({ handleClose }) {
     ;
   };
 
-  let renderedUserSelect;
-
-  if (users) {
-    renderedUserSelect = <select id="user" value={newTask.user} onChange={handleAttrChange} className="form-select">
-      <option value={null}>--- Обрати користувача ---</option>
-      {users.data.map((user) => {
-        return <option key={user.id} value={user.id}><UserInfo data={user} /></option>;
-      })}
-      </select>
-
-  } else if (isAccountsFetching) {
-    renderedUserSelect = <div>Завантаження користувачів...</div>;
-  } else {
-    console.log(accountsErrors);
-  }
 
   let renderedDepartmentsSelect;
 
@@ -134,7 +122,7 @@ export default function TaskForm ({ handleClose }) {
         <div className="mb-3">{renderedDepartmentsSelect}</div>
         <div className="mb-3">
           <select id="quarter" value={newTask.quarter} onChange={handleAttrChange} className="form-select">
-            <option value={null}>--- Обрати квартель ---</option>
+            <option value={null}>--- Обрати квартал ---</option>
             <option value={1}>1</option>
             <option value={2}>2</option>
             <option value={3}>3</option>
