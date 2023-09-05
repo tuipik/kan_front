@@ -5,7 +5,6 @@ import { tasksApi } from "../store/apis/tasksApi";
 import { commentsApi } from "../store/apis/commentsApi";
 import { accountsApi } from "../store/apis/accountsApi";
 import { departmentsApi } from "../store/apis/departmentsApi";
-import { isA } from "@jest/expect-utils";
 
 function Navbar() {
 
@@ -23,6 +22,7 @@ function Navbar() {
     dispatch(accountsApi.util.resetApiState());
     dispatch(departmentsApi.util.resetApiState());
     dispatch(commentsApi.util.resetApiState());
+    dispatch(departmentsApi.util.resetApiState());
     navigate("/login");
   };
 
@@ -45,6 +45,9 @@ function Navbar() {
       <li className="nav-item">
         <Link className="nav-link" to={'dashboard'}>Дошка</Link>
       </li>
+        <li className="nav-item">
+          <Link className="nav-link" to={'departments'}>Департаменти</Link>
+        </li>
     </ul>
     : ''
 
