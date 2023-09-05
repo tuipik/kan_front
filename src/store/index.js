@@ -17,7 +17,7 @@ export const store = configureStore({
     [departmentsApi.reducerPath]: departmentsApi.reducer,
   },
   middleware: (getDefaultMiddleware) => {
-    return getDefaultMiddleware()
+    return getDefaultMiddleware({serializableCheck: false})
       .concat(tasksApi.middleware)
       .concat(commentsApi.middleware)
       .concat(accountsApi.middleware)
@@ -48,6 +48,7 @@ export {
   useFetchDepartmentsQuery,
   useCreateDepartmentMutation,
   useUpdateDepartmentMutation,
+  useDeleteDepartmentMutation,
 } from './apis/departmentsApi'
 
 

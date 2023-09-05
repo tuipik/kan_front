@@ -4,19 +4,7 @@ import useShowErrors from "../../hooks/use-show-errors";
 import Input from "../input/Input";
 import useShowSuccess from "../../hooks/use-show-success";
 import useAccountsSelect from "../../hooks/use-accounts-select";
-import UserModel from "../user/UserModel";
-import DepartmentModel from "../department/DepartmentModel";
-
-class TaskModel {
-  name = "";
-  change_time_estimate = 0;
-  correct_time_estimate = 0;
-  otk_time_estimate = 0;
-  quarter = "";
-  category = "";
-  user = new UserModel();
-  department = new DepartmentModel();
-}
+import TaskModel from "./TaskModel";
 
 
 export default function TaskForm ({ handleClose }) {

@@ -51,16 +51,17 @@ export default function DepartmentForm({ handleClose, incomeDepartment, create }
       <Input
         id="name"
         placeholder="Назва"
-        required
-        onChange={handleAttrChange}
         defaultValue={incomeDepartment.name}
+        onChange={handleAttrChange}
+        type="text"
+        required
       />
       <div className="mb-3">{!create && renderedUserSelect}</div>
       <Checkbox value={department.is_verifier} onChange={handleAttrChange} id="is_verifier" label="Перевіряючий відділ" />
       <Input
         id="ordering"
         placeholder="Номер в черзі відображення"
-        value={department.ordering}
+        value={department.ordering || ''}
         onChange={handleAttrChange}
         type="number"
         required

@@ -1,6 +1,5 @@
 import {useFetchDepartmentsQuery} from "../../store";
 import Department from "./Department";
-import DepartmentCreation from "./DepartmentCreation";
 
 export default function  DepartmentList () {
   const { data, error, isFetching } = useFetchDepartmentsQuery();
@@ -10,9 +9,11 @@ export default function  DepartmentList () {
   if (data?.data) {
     renderedDepartments =
       <ul className="list-group list-group-flush">
-        {data.data.map((department) => <li className="list-group-item" key={department.id}>
-          <Department data={department} />
-        </li>) }
+        {
+          data.data.map((department) =>  <li className="list-group-item" key={department.id}>
+            <Department department={department} />
+          </li>)
+        }
       </ul>;
   } else if (isFetching) {
     renderedDepartments = <div>Заванаження департаментів...</div>
@@ -21,13 +22,8 @@ export default function  DepartmentList () {
     renderedDepartments = <div>Помилка завантаженяя департаментів</div>
   }
 
-
   return (
     <>
-      <br />
-      <DepartmentCreation />
-      <br />
-      <br />
       <h5 className="text-center">Список департаментів:</h5>
       {renderedDepartments}
     </>
