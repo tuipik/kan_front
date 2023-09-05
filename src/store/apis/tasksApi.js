@@ -37,7 +37,7 @@ const tasksApi = createApi({
             body: patch
           } 
         },
-        invalidatesTags: (result, error) => error ? [] : ['Tasks'],
+        invalidatesTags: (result, error) => error ? [] : ['Tasks', 'Comments'],
       }),
       deleteTask: builder.mutation({
         query: ( task ) => {
@@ -48,6 +48,16 @@ const tasksApi = createApi({
         },
         invalidatesTags: (result, error) => error ? [] : ['Tasks'],
       }),
+      fetchComments: builder.query({
+        query: (taskId) => {
+          return {
+            url: 'comments',
+            method: 'GET',
+            params: { 'task__id': taskId }
+          }
+        },
+        providesTags: ['Comments']
+      }),
       createComment: builder.mutation({
         query: (data) => {
           return {
@@ -56,7 +66,7 @@ const tasksApi = createApi({
             body: data,
           }
         },
-        invalidatesTags: (result, error) => error ? [] : ['Tasks'],
+        invalidatesTags: (result, error) => error ? [] : ['Comments'],
       })
     }
   }
@@ -67,6 +77,8 @@ export const {
   useCreateTaskMutation,
   useUpdateTaskMutation,
   useDeleteTaskMutation,
+  useFetchCommentsQuery,
+  useCreateCommentMutation
 } = tasksApi;
 
 export { tasksApi };

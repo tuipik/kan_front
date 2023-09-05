@@ -16,6 +16,7 @@ export default function TaskForm ({ handleClose }) {
   const [newTask, setNewTask] = useState(new TaskModel());
   
   const showErrors = useShowErrors();
+
   const showSuccess = useShowSuccess();
 
   const handleAttrChange = (event) => {
@@ -30,6 +31,7 @@ export default function TaskForm ({ handleClose }) {
       user: newTask.user,
       id: 'user',
       label: 'Обрати користувача',
+      department: newTask.department,
       handleAttrChange
     }
   )
@@ -44,7 +46,6 @@ export default function TaskForm ({ handleClose }) {
         showSuccess({ body });
       })
       .catch((error) => {
-        console.log(error);
         showErrors(error.data);
       })
     ;
@@ -55,7 +56,7 @@ export default function TaskForm ({ handleClose }) {
 
   if (departments) {
     renderedDepartmentsSelect = <select id="department" value={newTask.department} onChange={handleAttrChange} className="form-select">
-        <option value={null}>--- Обрати відділ ---</option>
+        <option value="">--- Обрати відділ ---</option>
         {departments.data.map((department) => {
           return <option key={department.id} value={department.id}>{department.name}</option>
         })}
@@ -113,8 +114,6 @@ export default function TaskForm ({ handleClose }) {
   return (
      <form onSubmit={handleSubmit}>
         {renderedInputs}
-        <div className="mb-3">{renderedUserSelect}</div>
-        <div className="mb-3">{renderedDepartmentsSelect}</div>
         <div className="mb-3">
           <select id="quarter" value={newTask.quarter} onChange={handleAttrChange} className="form-select">
             <option value={null}>--- Обрати квартал ---</option>
@@ -124,6 +123,8 @@ export default function TaskForm ({ handleClose }) {
             <option value={4}>4</option>
           </select>
         </div>
+        <div className="mb-3">{renderedDepartmentsSelect}</div>
+        <div className="mb-3">{renderedUserSelect}</div>
         <button className="btn btn-primary">{createTaskData.isLoading ? 'Відправка...' : 'Створити'}</button>
       </form> 
   );

@@ -11,10 +11,11 @@ const accountsApi = createApi({
   endpoints(builder) {
     return {
       fetchAccounts: builder.query({
-        query: (taskId) => {
+        query: (departmentId) => {
           return {
             url: 'accounts',
             method: 'GET',
+            params: {'department__id': departmentId}
           }
         },
         provideTags: ['Accounts']
