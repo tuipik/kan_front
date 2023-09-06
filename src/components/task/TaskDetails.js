@@ -21,8 +21,7 @@ export default function TaskDetails({ task }) {
     }
     doDeleteTask(task)
       .unwrap()
-      .then((result) => {
-        console.log(result);
+      .then(() => {
         handleClose();
         showSuccess({body: `Задачу ${task.name} успішно видалено`})
       })

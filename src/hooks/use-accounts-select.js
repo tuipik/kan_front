@@ -1,26 +1,33 @@
 import {useFetchAccountsQuery} from "../store";
 import UserInfo from "../components/UserInfo";
 
-export default function useAccountsSelect ({ handleAttrChange, user, id, label }) {
-  const { data: users, error: accountsErrors, isFetching: isAccountsFetching } = useFetchAccountsQuery();
+export default function useAccountsSelect ({ handleAttrChange, user, id, label, department }) {
+
+  const skip = !department;
+
+  const { data: users, error: accountsErrors, isFetching: isAccountsFetching } = useFetchAccountsQuery(department, {skip});
+
+  let defaultLabel = `--- ${label} ---`;
+
+  let userOptions;
 
   let renderedUserSelect;
 
-  const defaultLabel = `--- ${label} ---`;
-
   if (users) {
-    renderedUserSelect = <select id={id} defaultValue={user} onChange={handleAttrChange} className="form-select">
-      <option value="">{defaultLabel}</option>
-      {users.data.map((user) => {
-        return <option key={user.id} value={user.id}><UserInfo data={user} /></option>;
-      })}
-    </select>
-
+    userOptions = users.data.map((user) => {
+      return <option key={user.id} value={user.id}><UserInfo data={user} /></option>;
+    })
   } else if (isAccountsFetching) {
-    renderedUserSelect = <div>Завантаження користувачів...</div>;
-  } else {
+    defaultLabel = 'Завантаження користувачів...';
+  } else if (accountsErrors) {
+    defaultLabel = 'Помилка завантаження користувачів';
     console.log(accountsErrors);
   }
+
+  renderedUserSelect = <select id={id} defaultValue={user} onChange={handleAttrChange} disabled={skip} className="form-select">
+    <option value="">{defaultLabel}</option>
+    {userOptions}
+  </select>
 
   return renderedUserSelect;
 }
