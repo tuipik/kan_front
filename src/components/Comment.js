@@ -1,8 +1,17 @@
+import {Card} from "react-bootstrap";
+
 export default function Comment({ comment }) {
+    const size = comment.is_log ? 11 : 16;
+    const muted = comment.is_log ? 'muted' : 'dark';
+    const opacity = comment.is_log ? .6 : 1;
   return (
-    <div className="mb-3">
-      <span><b>{comment.user.username}</b> <i>{comment.created}</i></span>
-      <textarea className="form-control" rows="3" defaultValue={comment.body} />
-    </div>
+        <Card className="mt-2" text={muted} style={{opacity:opacity}}>
+            <Card.Header style={{fontSize: 11}}><b>{comment.user.username}</b> <i>{comment.created}</i></Card.Header>
+            <Card.Body>
+                <Card.Text style={{fontSize: size}}>
+                    {comment.body}
+                </Card.Text>
+            </Card.Body>
+        </Card>
   );
 }
