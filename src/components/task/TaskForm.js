@@ -1,20 +1,21 @@
-import { useState } from "react";
-import { useCreateTaskMutation, useFetchDepartmentsQuery } from "../../store";
+import {useState} from "react";
+import {useCreateTaskMutation, useFetchDepartmentsQuery} from "../../store";
 import useShowErrors from "../../hooks/use-show-errors";
 import Input from "../input/Input";
 import useShowSuccess from "../../hooks/use-show-success";
 import useAccountsSelect from "../../hooks/use-accounts-select";
 import TaskModel from "./TaskModel";
+import {useSelector} from "react-redux";
 
 
-export default function TaskForm ({ handleClose }) {
+export default function TaskForm({handleClose}) {
 
-  const { data: departments, error: departmentsErrors, isFetching: isDepartmentsFetching } = useFetchDepartmentsQuery();
+  const {data: departments, error: departmentsErrors, isFetching: isDepartmentsFetching} = useFetchDepartmentsQuery();
 
   const [doCreateTask, createTaskData] = useCreateTaskMutation();
 
   const [newTask, setNewTask] = useState(new TaskModel());
-  
+
   const showErrors = useShowErrors();
 
   const showSuccess = useShowSuccess();
@@ -43,7 +44,7 @@ export default function TaskForm ({ handleClose }) {
       .then((result) => {
         const body = `Задача ${newTask.name} успішно створена`;
         handleClose();
-        showSuccess({ body });
+        showSuccess({body});
       })
       .catch((error) => {
         showErrors(error.data);
@@ -55,7 +56,8 @@ export default function TaskForm ({ handleClose }) {
   let renderedDepartmentsSelect;
 
   if (departments) {
-    renderedDepartmentsSelect = <select id="department" value={newTask.department} onChange={handleAttrChange} className="form-select">
+    renderedDepartmentsSelect =
+      <select id="department" value={newTask.department} onChange={handleAttrChange} className="form-select">
         <option value="">--- Обрати відділ ---</option>
         {departments.data.map((department) => {
           return <option key={department.id} value={department.id}>{department.name}</option>
@@ -109,23 +111,23 @@ export default function TaskForm ({ handleClose }) {
 
   ];
 
-  const renderedInputs = inputsData.map((data) => <Input {...data} onChange={handleAttrChange} key={data.id} />);
+  const renderedInputs = inputsData.map((data) => <Input {...data} onChange={handleAttrChange} key={data.id}/>);
 
   return (
-     <form onSubmit={handleSubmit}>
-        {renderedInputs}
-        <div className="mb-3">
-          <select id="quarter" value={newTask.quarter} onChange={handleAttrChange} className="form-select">
-            <option value={null}>--- Обрати квартал ---</option>
-            <option value={1}>1</option>
-            <option value={2}>2</option>
-            <option value={3}>3</option>
-            <option value={4}>4</option>
-          </select>
-        </div>
-        <div className="mb-3">{renderedDepartmentsSelect}</div>
-        <div className="mb-3">{renderedUserSelect}</div>
-        <button className="btn btn-primary">{createTaskData.isLoading ? 'Відправка...' : 'Створити'}</button>
-      </form> 
+    <form onSubmit={handleSubmit}>
+      {renderedInputs}
+      <div className="mb-3">
+        <select id="quarter" value={newTask.quarter} onChange={handleAttrChange} className="form-select">
+          <option value={null}>--- Обрати квартал ---</option>
+          <option value={1}>1</option>
+          <option value={2}>2</option>
+          <option value={3}>3</option>
+          <option value={4}>4</option>
+        </select>
+      </div>
+      <div className="mb-3">{renderedDepartmentsSelect}</div>
+      <div className="mb-3">{renderedUserSelect}</div>
+      <button className="btn btn-primary">{createTaskData.isLoading ? 'Відправка...' : 'Створити'}</button>
+    </form>
   );
 }

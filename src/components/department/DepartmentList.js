@@ -1,8 +1,8 @@
 import {useFetchDepartmentsQuery} from "../../store";
 import Department from "./Department";
 
-export default function  DepartmentList () {
-  const { data, error, isFetching } = useFetchDepartmentsQuery();
+export default function DepartmentList() {
+  const {data, error, isFetching} = useFetchDepartmentsQuery();
 
   let renderedDepartments;
 
@@ -10,8 +10,8 @@ export default function  DepartmentList () {
     renderedDepartments =
       <ul className="list-group list-group-flush">
         {
-          data.data.map((department) =>  <li className="list-group-item" key={department.id}>
-            <Department department={department} />
+          data.data.map((department) => <li className="list-group-item" key={department.id}>
+            <Department department={department}/>
           </li>)
         }
       </ul>;

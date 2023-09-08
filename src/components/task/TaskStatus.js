@@ -32,6 +32,9 @@ export default function TaskStatus( { task }) {
   </select>;
 
   return (
-    <div><b>Статус:</b> {renderedStatus}</div>
+    <>
+      <div><b>Статус:</b></div>
+      <div>{renderedStatus}</div>
+    </>
   );
 }

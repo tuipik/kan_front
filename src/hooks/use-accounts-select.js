@@ -1,5 +1,5 @@
 import {useFetchAccountsQuery} from "../store";
-import UserInfo from "../components/UserInfo";
+import UserInfo from "../components/user/UserInfo";
 
 export default function useAccountsSelect ({ handleAttrChange, user, id, label, department }) {
 

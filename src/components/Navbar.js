@@ -1,9 +1,10 @@
 import { useDispatch, useSelector } from "react-redux";
 import { Link, useNavigate } from "react-router-dom";
-import { logout } from "../store";
+import {logout} from "../store";
 import { tasksApi } from "../store/apis/tasksApi";
 import { accountsApi } from "../store/apis/accountsApi";
 import { departmentsApi } from "../store/apis/departmentsApi";
+import {settingsApi} from "../store/apis/settingsApi";
 
 function Navbar() {
 
@@ -16,6 +17,7 @@ function Navbar() {
 
   const handleExitClick = () => {
     dispatch(logout());
+    dispatch(settingsApi.util.resetApiState());
     dispatch(tasksApi.util.resetApiState());
     dispatch(accountsApi.util.resetApiState());
     dispatch(departmentsApi.util.resetApiState());
