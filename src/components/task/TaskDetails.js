@@ -1,6 +1,6 @@
 import { Link } from "react-router-dom";
 import Button from 'react-bootstrap/Button';
-import CommentList from "../ComentList";
+import CommentList from "../comment/ComentList";
 import TaskMainInfo from "./TaskMainInfo";
 import TaskTimeStatuses from "./TaskTimeStatuses";
 import TaskStatus from "./TaskStatus";

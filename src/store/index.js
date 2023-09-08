@@ -5,6 +5,7 @@ import { tasksApi } from "./apis/tasksApi";
 import { toastReducer } from "./slices/toastSlice";
 import { accountsApi } from "./apis/accountsApi";
 import { departmentsApi } from "./apis/departmentsApi";
+import {settingsApi} from "./apis/settingsApi";
 
 export const store = configureStore({
   reducer: {
@@ -13,12 +14,14 @@ export const store = configureStore({
     [tasksApi.reducerPath]: tasksApi.reducer,
     [accountsApi.reducerPath]: accountsApi.reducer,
     [departmentsApi.reducerPath]: departmentsApi.reducer,
+    [settingsApi.reducerPath]: settingsApi.reducer,
   },
   middleware: (getDefaultMiddleware) => {
     return getDefaultMiddleware({serializableCheck: false})
       .concat(tasksApi.middleware)
       .concat(accountsApi.middleware)
       .concat(departmentsApi.middleware)
+      .concat(settingsApi.middleware)
     ;
   }
 });
@@ -54,5 +57,9 @@ export {
   showToast,
   hideToast,
 } from './slices/toastSlice';
+
+export {
+  useFetchSettingsQuery,
+} from './apis/settingsApi'
 
 export * from './thunks/login';
