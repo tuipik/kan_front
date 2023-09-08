@@ -1,12 +1,11 @@
 import {useState} from "react";
 import {useCreateTaskMutation, useFetchDepartmentsQuery} from "../../store";
 import useShowErrors from "../../hooks/use-show-errors";
-import Input from "../input/Input";
+import Input from "../custom/input/Input";
 import useShowSuccess from "../../hooks/use-show-success";
 import useAccountsSelect from "../../hooks/use-accounts-select";
 import TaskModel from "./TaskModel";
-import {useSelector} from "react-redux";
-
+import ScaleSelect from "../ScaleSelect";
 
 export default function TaskForm({handleClose}) {
 
@@ -125,6 +124,7 @@ export default function TaskForm({handleClose}) {
           <option value={4}>4</option>
         </select>
       </div>
+      <ScaleSelect value={newTask.scale} onChange={handleAttrChange} />
       <div className="mb-3">{renderedDepartmentsSelect}</div>
       <div className="mb-3">{renderedUserSelect}</div>
       <button className="btn btn-primary">{createTaskData.isLoading ? 'Відправка...' : 'Створити'}</button>

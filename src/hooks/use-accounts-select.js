@@ -11,8 +11,6 @@ export default function useAccountsSelect ({ handleAttrChange, user, id, label, 
 
   let userOptions;
 
-  let renderedUserSelect;
-
   if (users) {
     userOptions = users.data.map((user) => {
       return <option key={user.id} value={user.id}><UserInfo data={user} /></option>;
@@ -24,10 +22,8 @@ export default function useAccountsSelect ({ handleAttrChange, user, id, label, 
     console.log(accountsErrors);
   }
 
-  renderedUserSelect = <select id={id} defaultValue={user} onChange={handleAttrChange} disabled={skip} className="form-select">
+  return <select id={id} defaultValue={user} onChange={handleAttrChange} disabled={skip} className="form-select">
     <option value="">{defaultLabel}</option>
     {userOptions}
   </select>
-
-  return renderedUserSelect;
 }

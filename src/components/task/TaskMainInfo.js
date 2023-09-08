@@ -8,7 +8,7 @@ export default function TaskMainInfo({ task }) {
       <div><b>Виконавець: </b><UserInfo data={task.user} /></div>
       <div><b>Категорія: </b>{task.category}</div>
       <div><b>Квартал: </b>{task.quarter_display_value}</div>
-      <div><b>Маштаб: </b>{task.scale}</div>
+      <div><b>Масштаб: </b>{task.scale}</div>
       <div><b>Створено: </b><i>{task.created}</i></div>
       <div><b>Оновлено: </b><i>{task.updated}</i></div>
     </div>

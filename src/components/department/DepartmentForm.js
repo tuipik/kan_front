@@ -1,10 +1,10 @@
-import Input from "../input/Input";
+import Input from "../custom/input/Input";
 import {useState} from "react";
 import {useCreateDepartmentMutation, useUpdateDepartmentMutation} from "../../store";
 import useShowErrors from "../../hooks/use-show-errors";
 import useShowSuccess from "../../hooks/use-show-success";
 import useAccountsSelect from "../../hooks/use-accounts-select";
-import Checkbox from "../checkbox/Checkbox";
+import Checkbox from "../custom/checkbox/Checkbox";
 
 export default function DepartmentForm({ handleClose, incomeDepartment, create }) {
 
