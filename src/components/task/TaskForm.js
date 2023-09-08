@@ -1,11 +1,17 @@
 import {useState} from "react";
-import {useCreateTaskMutation, useFetchDepartmentsQuery} from "../../store";
+import {
+  useCreateTaskMutation,
+  useFetchAccountsQuery,
+  useFetchDepartmentsQuery,
+  useFetchSettingsQuery
+} from "../../store";
 import useShowErrors from "../../hooks/use-show-errors";
 import Input from "../custom/input/Input";
 import useShowSuccess from "../../hooks/use-show-success";
-import useAccountsSelect from "../../hooks/use-accounts-select";
 import TaskModel from "./TaskModel";
-import ScaleSelect from "../ScaleSelect";
+import Select from "../custom/select/Select";
+import UserInfo from "../user/UserInfo";
+import useSettings from "../../hooks/use-settings";
 
 export default function TaskForm({handleClose}) {
 
@@ -13,7 +19,17 @@ export default function TaskForm({handleClose}) {
 
   const [doCreateTask, createTaskData] = useCreateTaskMutation();
 
+  const {settings, isFetchingSettings, settingsError} = useSettings();
+
+  let scaleSelectData, quarterSelectData, departmentsSelectData, accountsSelectData;
+
+  if (settings) {
+    scaleSelectData =  settings.TASK_SCALES;
+    quarterSelectData = settings.YEAR_QUARTERS;
+  }
+
   const [newTask, setNewTask] = useState(new TaskModel());
+  const { data: accounts, error: accountsErrors, isFetching: isAccountsFetching } = useFetchAccountsQuery(newTask.department, {skip: !newTask.department});
 
   const showErrors = useShowErrors();
 
@@ -25,16 +41,6 @@ export default function TaskForm({handleClose}) {
 
     setNewTask({...newTask, [attr]: value});
   };
-
-  const renderedUserSelect = useAccountsSelect(
-    {
-      user: newTask.user,
-      id: 'user',
-      label: 'Обрати користувача',
-      department: newTask.department,
-      handleAttrChange
-    }
-  )
 
   const handleSubmit = (event) => {
     event.preventDefault();
@@ -51,21 +57,15 @@ export default function TaskForm({handleClose}) {
     ;
   };
 
-
-  let renderedDepartmentsSelect;
-
+  if (accounts?.data) {
+    accountsSelectData = accounts.data.reduce(
+      (obj, account) => (obj[account.id] = <UserInfo data={account}/>, obj), {}
+    );
+  }
   if (departments) {
-    renderedDepartmentsSelect =
-      <select id="department" value={newTask.department} onChange={handleAttrChange} className="form-select">
-        <option value="">--- Обрати відділ ---</option>
-        {departments.data.map((department) => {
-          return <option key={department.id} value={department.id}>{department.name}</option>
-        })}
-      </select>
-  } else if (isDepartmentsFetching) {
-    renderedDepartmentsSelect = <div>Завантаження відділів...</div>
-  } else {
-    console.log(departmentsErrors);
+    departmentsSelectData = departments.data.reduce(
+      (obj, department) => (obj[department.id] = department.name, obj), {}
+    );
   }
 
   const inputsData = [
@@ -107,26 +107,56 @@ export default function TaskForm({handleClose}) {
       max: 2000,
       required: true,
     }
-
   ];
 
+  const selectData = [
+    {
+      id: "quarter",
+      value: newTask.quarter,
+      data: quarterSelectData,
+      isFetching: isFetchingSettings,
+      label: "квартал",
+      error: settingsError,
+    },
+    {
+      id: "scale",
+      value: newTask.scale,
+      data: scaleSelectData,
+      isFetching: isFetchingSettings,
+      label:"масштаб",
+      error: settingsError,
+    },
+    {
+      id: "department",
+      value: newTask.department,
+      data: departmentsSelectData,
+      isFetching: isDepartmentsFetching,
+      label: "відділ",
+      error: departmentsErrors,
+    },
+    {
+      id: "user",
+      value: newTask.user,
+      data: accountsSelectData,
+      isFetching: isAccountsFetching,
+      label: "користувача",
+      error: accountsErrors,
+      disabled: !newTask.department,
+    }
+  ]
+
   const renderedInputs = inputsData.map((data) => <Input {...data} onChange={handleAttrChange} key={data.id}/>);
+  const renderedSelects = selectData.map((data) => <Select
+    {...data}
+    key={data.id}
+    onChange={handleAttrChange}
+    error={settingsError}
+  />);
 
   return (
     <form onSubmit={handleSubmit}>
       {renderedInputs}
-      <div className="mb-3">
-        <select id="quarter" value={newTask.quarter} onChange={handleAttrChange} className="form-select">
-          <option value={null}>--- Обрати квартал ---</option>
-          <option value={1}>1</option>
-          <option value={2}>2</option>
-          <option value={3}>3</option>
-          <option value={4}>4</option>
-        </select>
-      </div>
-      <ScaleSelect value={newTask.scale} onChange={handleAttrChange} />
-      <div className="mb-3">{renderedDepartmentsSelect}</div>
-      <div className="mb-3">{renderedUserSelect}</div>
+      {renderedSelects}
       <button className="btn btn-primary">{createTaskData.isLoading ? 'Відправка...' : 'Створити'}</button>
     </form>
   );

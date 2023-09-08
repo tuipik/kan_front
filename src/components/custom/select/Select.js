@@ -7,26 +7,26 @@ export default function Select(
     data,
     isFetching,
     error,
-    defaultLabel
+    label
   }
 ) {
 
   let options;
-  let label = defaultLabel;
+  let fullLabel = `Обрати ${label}`;
 
   if (data) {
     options = Object.entries(data).map(([value, key]) => {
       return <option key={value} value={value}>{key}</option>
     });
-    label = 'Обрати масштаб'
+    fullLabel = `Обрати ${label}`
   } else if (isFetching) {
-    label = 'Завантаження ...';
+    fullLabel = `Завантаження (${label}) ...`;
   } else if (error) {
-    label = 'Помилка завантаження';
+    fullLabel = `Помилка завантаження (${label})`;
   }
 
   const renderedScaleSelect = <select id={id} defaultValue={value} onChange={onChange} className="form-select" disabled={disabled}>
-    <option value="">{`--- ${label} ---`}</option>
+    <option value="">{`--- ${fullLabel} ---`}</option>
     {options}
   </select>
 

@@ -1,10 +1,19 @@
 import useShowErrors from "../../hooks/use-show-errors";
 import useShowSuccess from "../../hooks/use-show-success";
 import { useUpdateTaskMutation } from "../../store";
-import { translatedTaskaskStatuses } from "../../translations";
+import Select from "../custom/select/Select";
+import useSettings from "../../hooks/use-settings";
 
 export default function TaskStatus( { task }) {
   const [doUpdate, data] = useUpdateTaskMutation();
+
+  const {settings, isFetchingSettings, settingsError} = useSettings();
+
+  let statusesData;
+
+  if (settings) {
+    statusesData = settings.TASK_STATUSES;
+  }
 
   const showSuccess = useShowSuccess();
   const showErrors = useShowErrors();
@@ -25,11 +34,15 @@ export default function TaskStatus( { task }) {
       });
   }
 
-  const renderedStatus = <select value={task.status} onChange={handleStatusSelect} className="form-select">
-    {Object.entries(translatedTaskaskStatuses).map((key, value) => {
-      return <option id={key[0]} value={key[0]} key={key[0]}>{key[1]}</option>;
-    })}
-  </select>;
+  const renderedStatus = <Select
+    id="status"
+    value={task.status}
+    data={statusesData}
+    label="статус"
+    onChange={handleStatusSelect}
+    isFetching={isFetchingSettings}
+    error={settingsError}
+  />
 
   return (
     <>
