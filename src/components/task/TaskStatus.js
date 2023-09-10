@@ -9,14 +9,10 @@ export default function TaskStatus( { task }) {
 
   const {settings, isFetchingSettings, settingsError} = useSettings();
 
-  let statusesData;
-
-  if (settings) {
-    statusesData = settings.TASK_STATUSES;
-  }
-
   const showSuccess = useShowSuccess();
   const showErrors = useShowErrors();
+
+  let statusesData, renderedStatuses;
 
   const handleStatusSelect = (event) => {
     const newStatus = event.target.value;
@@ -34,20 +30,24 @@ export default function TaskStatus( { task }) {
       });
   }
 
-  const renderedStatus = <Select
-    id="status"
-    value={task.status}
-    data={statusesData}
-    label="статус"
-    onChange={handleStatusSelect}
-    isFetching={isFetchingSettings}
-    error={settingsError}
-  />
+  if (settings) {
+    statusesData = settings.TASK_STATUSES;
+    // TODO: select show default value (but should show value of task.status) during first render if replace from this if block
+    renderedStatuses = <Select
+      id="status"
+      value={task.status}
+      data={statusesData}
+      label="статус"
+      onChange={handleStatusSelect}
+      isFetching={isFetchingSettings}
+      error={settingsError}
+    />;
+  }
 
   return (
     <>
       <div><b>Статус:</b></div>
-      <div>{renderedStatus}</div>
+      <div>{renderedStatuses}</div>
     </>
   );
 }

@@ -62,7 +62,7 @@ export default function TaskForm({handleClose}) {
       (obj, account) => (obj[account.id] = <UserInfo data={account}/>, obj), {}
     );
   }
-  if (departments) {
+  if (departments?.data) {
     departmentsSelectData = departments.data.reduce(
       (obj, department) => (obj[department.id] = department.name, obj), {}
     );
