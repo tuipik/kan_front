@@ -1,8 +1,8 @@
 import { useState } from "react";
-import { useCreateCommentMutation, useFetchCommentsQuery } from "../../store";
+import { useCreateCommentMutation, useFetchCommentsQuery } from "../../../store";
 import Comment from "./Comment";
 import { useSelector } from "react-redux";
-import useShowErrors from "../../hooks/use-show-errors";
+import useShowErrors from "../../../hooks/use-show-errors";
 
 export default function CommentList({ task }) {
   

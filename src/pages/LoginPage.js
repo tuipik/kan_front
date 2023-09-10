@@ -4,7 +4,7 @@ import { useSelector } from "react-redux";
 import useThunk from "../hooks/use-thunk";
 import { useNavigate } from "react-router-dom";
 import { translatedMessages } from "../translations";
-import Input from "../components/input/Input";
+import Input from "../components/custom/input/Input";
 import useShowToast from "../hooks/use-show-toast";
 
 function LoginPage() {

@@ -7,4 +7,5 @@ export default class TaskModel {
   category = "";
   user = null;
   department = null;
+  scale = null;
 }
