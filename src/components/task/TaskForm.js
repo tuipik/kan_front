@@ -84,7 +84,7 @@ export default function TaskForm({handleClose}) {
       required: true
     },
     {
-      placeholder: "Change time?",
+      placeholder: "Час на оновлення",
       id: "change_time_estimate",
       type: "number",
       min: 3,
@@ -92,7 +92,7 @@ export default function TaskForm({handleClose}) {
       required: true,
     },
     {
-      placeholder: "Час коректури",
+      placeholder: "Час на коректуру",
       id: "correct_time_estimate",
       type: "number",
       min: 3,
@@ -100,7 +100,7 @@ export default function TaskForm({handleClose}) {
       required: true,
     },
     {
-      placeholder: "Час ОТК",
+      placeholder: "Час на ОТК",
       id: "otk_time_estimate",
       type: "number",
       min: 3,
