@@ -1,19 +1,20 @@
 import {Card} from "react-bootstrap";
-import {AiOutlineEdit} from "react-icons/ai";
-import {GoTrash} from "react-icons/go";
+import {useSelector} from "react-redux";
+import RenderButton from "../buttons/Button";
 
-const showEditIcons = (isLog) => {
-  if (!isLog) {
+const showEditIcons = (isLog, isAuthor, isAdmin) => {
+  if ((!isLog && isAuthor) || (!isLog && isAdmin)) {
     return (
       <div style={{display: "block", position: "absolute", top: 0, right: "4%"}}>
-        <div className="btn" style={{padding: "3px 10px"}}><AiOutlineEdit /></div>
-        <div className="btn" style={{padding: "3px 10px"}}><GoTrash /></div>
+        <RenderButton style={{padding: "3px 10px"}} button="edit"/>
+        <RenderButton style={{padding: "3px 10px"}} button="delete"/>
       </div>
     )
   }
 }
 
 export default function Comment({comment}) {
+  const authUser = useSelector((state) => state.auth.data);
   const size = comment.is_log ? 11 : 16;
   const muted = comment.is_log ? 'muted' : 'dark';
   const opacity = comment.is_log ? .6 : 1;
@@ -25,7 +26,7 @@ export default function Comment({comment}) {
           <b>{comment.user.username}</b>
           <i style={{marginLeft: 10}}>{comment.created}</i>
         </div>
-          {showEditIcons(comment.is_log)}
+          {showEditIcons(comment.is_log, authUser.id === comment.user.id, authUser.is_admin)}
       </div>
 
       </Card.Header>
