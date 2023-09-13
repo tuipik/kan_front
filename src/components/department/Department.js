@@ -1,12 +1,10 @@
-import {Link} from "react-router-dom";
 import useShow from "../../hooks/use-show";
 import Modal from "../Modal";
 import DepartmentForm from "./DepartmentForm";
 import {useDeleteDepartmentMutation} from "../../store";
 import useShowSuccess from "../../hooks/use-show-success";
 import useShowErrors from "../../hooks/use-show-errors";
-import {AiOutlineEdit} from "react-icons/ai";
-import {GoTrash} from "react-icons/go";
+import RenderButton from "../custom/buttons/Button";
 
 export default function Department({ department }) {
 
@@ -30,8 +28,8 @@ export default function Department({ department }) {
   return (
     <div className="d-flex">
       <div className="flex-grow-1">{department.name}</div>
-      <div className="btn" onClick={handleShow}><AiOutlineEdit /></div>
-      <div className="btn" onClick={handleTrashClick}><GoTrash /></div>
+      <RenderButton onClick={handleShow} button="edit"/>
+      <RenderButton onClick={handleTrashClick} button="delete"/>
       <Modal
         show={show}
         handleClose={handleClose}
