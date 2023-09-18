@@ -25,12 +25,22 @@ export default function Select(
     fullLabel = `Помилка завантаження (${label})`;
   }
 
-  const renderedScaleSelect = <select id={id} defaultValue={value} onChange={onChange} className="form-select" disabled={disabled}>
+  const renderedScaleSelect = <select
+    id={id}
+    defaultValue={value}
+    onChange={onChange}
+    className="form-select mb-3"
+    disabled={disabled}
+    name={id}
+  >
     <option value="">{`--- ${fullLabel} ---`}</option>
     {options}
   </select>
 
   return (
-    <div className="mb-3">{renderedScaleSelect}</div>
+    <div className="form-floating">
+      {renderedScaleSelect}
+      <label htmlFor={id}>{label}</label>
+    </div>
   );
 }

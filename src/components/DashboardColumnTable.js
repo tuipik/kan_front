@@ -1,4 +1,4 @@
-import SortableTable from "./SortableTable";
+import SortableTable from "./custom/table/SortableTable";
 import TaskDetails from "./task/TaskDetails";
 
 export default function DashboardColumnTable({ tableName, columns, data }) {

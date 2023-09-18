@@ -1,7 +1,8 @@
 import { Button } from "react-bootstrap";
 import Task from "./Task";
 import useShow from "../../hooks/use-show";
-import TaskForm from "./TaskForm";
+import TaskForm, {CREATE_TYPE} from "./TaskForm";
+import TaskModel from "./TaskModel";
 
 export default function TaskCreation() {
 
@@ -23,7 +24,7 @@ export default function TaskCreation() {
       show={show}
       handleClose={handleClose}
       head={renderedHead}
-      body={<TaskForm handleClose={handleClose} />}
+      body={<TaskForm handleClose={handleClose} incomeTask={new TaskModel()} formType={CREATE_TYPE} />}
       trigger={renderedTrigger}
     />
   );

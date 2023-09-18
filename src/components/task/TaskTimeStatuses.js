@@ -1,4 +1,4 @@
-import Table from "../Table";
+import Table from "../custom/table/Table";
 
 export default function TaskTimeStatuses ({ task }) {
 

@@ -1,7 +1,9 @@
+import {Fragment} from "react";
+
 export default function UserInfo( { data }) {
   return (
-    <>
-      <span style={{display: 'inline'}}>{data.last_name} {data.first_name} ({data.department?.name})</span>
-    </>
+    <Fragment>
+      {data.last_name} {data.first_name} ({data.department?.name})
+    </Fragment>
   );
 }
