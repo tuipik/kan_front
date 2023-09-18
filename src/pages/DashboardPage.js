@@ -44,7 +44,12 @@ function DashboardPage() {
         const tableStatuses = table.columns.map((column) => column.status);
         return tableStatuses.includes(task.status);
       });
-      return <DashboardColumnTable key={table.name} tableName={table.name} columns={table.columns} data={tableData} />
+      return <DashboardColumnTable
+        key={table.name}
+        tableName={table.name}
+        columns={table.columns}
+        data={tableData}
+      />
     });
 
     content =

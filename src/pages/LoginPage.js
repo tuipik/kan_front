@@ -3,7 +3,6 @@ import { loginThunk } from "../store";
 import { useSelector } from "react-redux";
 import useThunk from "../hooks/use-thunk";
 import { useNavigate } from "react-router-dom";
-import { translatedMessages } from "../translations";
 import Input from "../components/custom/input/Input";
 import useShowToast from "../hooks/use-show-toast";
 
@@ -39,7 +38,7 @@ function LoginPage() {
     navigate('/dashboard');
   }
 
-  const errorMessage = loginError ? translatedMessages[loginError.message] : '';
+  const errorMessage = loginError ? loginError.message : '';
 
   if (errorMessage) {
     showToast({header: 'Помилка авторізації', body: errorMessage, bg: 'warning'});
@@ -47,16 +46,17 @@ function LoginPage() {
 
   return (
     <form className="container" onSubmit={handleSubmit}>
+      <br />
       <Input
         id="login"
-        placeholder="Логін"
+        label="Логін"
         value={login}
         onChange={handleLoginChange}
         required
       />
       <Input
         id="password"
-        placeholder="Пароль"
+        label="Пароль"
         value={password}
         onChange={handlePasswordChange}
         type="password"
