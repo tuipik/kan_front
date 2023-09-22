@@ -238,7 +238,7 @@ function TaskForm({handleClose, incomeTask, formType}) {
       <div key={selectsKey}>{renderedSelects}</div>
       <button
         className="btn btn-primary">{createTaskData.isLoading || updateTaskData.isLoading ? 'Збереження...' : 'Зберегти'}</button>
-      <button onClick={handleClick}>show data</button>
+      {/*<button onClick={handleClick}>show data</button>*/}
     </form>
   );
 }
