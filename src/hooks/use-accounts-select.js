@@ -3,7 +3,7 @@ import UserInfo from "../components/user/UserInfo";
 
 export default function useAccountsSelect ({ handleAttrChange, user, id, label, department }) {
 
-  const skip = !department;
+  const skip = false;
 
   const { data: users, error: accountsErrors, isFetching: isAccountsFetching } = useFetchAccountsQuery(department, {skip});
 
@@ -22,7 +22,7 @@ export default function useAccountsSelect ({ handleAttrChange, user, id, label, 
     console.log(accountsErrors);
   }
 
-  return <select id={id} defaultValue={user} onChange={handleAttrChange} disabled={skip} className="form-select">
+  return users && <select id={id} defaultValue={user} onChange={handleAttrChange} disabled={skip} className="form-select">
     <option value="">{defaultLabel}</option>
     {userOptions}
   </select>

@@ -38,7 +38,8 @@ export default function DepartmentForm({ handleClose, incomeDepartment, create }
     setDepartment({...department, [attr]: value});
   };
 
-  const renderedUserSelect = useAccountsSelect(
+  // TODO use custom <Select /> below
+  let renderedUserSelect = useAccountsSelect(
     {
       user: department.head,
       id: "head",
