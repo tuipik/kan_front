@@ -5,6 +5,7 @@ import useShowErrors from "../../hooks/use-show-errors";
 import useShowSuccess from "../../hooks/use-show-success";
 import useAccountsSelect from "../../hooks/use-accounts-select";
 import Checkbox from "../custom/checkbox/Checkbox";
+import Select from "../custom/select/Select";
 
 export default function DepartmentForm({ handleClose, incomeDepartment, create }) {
 
@@ -38,13 +39,21 @@ export default function DepartmentForm({ handleClose, incomeDepartment, create }
     setDepartment({...department, [attr]: value});
   };
 
-  const renderedUserSelect = useAccountsSelect(
+  let renderedUserSelect = useAccountsSelect(
     {
       user: department.head,
       id: "head",
       label: "Обрати керівника",
       handleAttrChange
     });
+
+  // renderedUserSelect = <Select
+  //   id="head"
+  //   value={department.head}
+  //   label: "Обрати керівника"
+  //   data=
+  //
+  // />
 
   return (
     <form onSubmit={handleSubmit}>

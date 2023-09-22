@@ -45,7 +45,7 @@ export default function TaskDetails({ task }) {
     setShowEditForm(false);
   };
 
-  const showEditBtn = is_admin || (department.id === task.department);
+  const showEditBtn = is_admin || (department === task.department);
   const renderedBody = showEditForm ?
     <TaskForm handleClose={() => setShowEditForm(false)} incomeTask={task} formType={UPDATE_TYPE} />
     : (
