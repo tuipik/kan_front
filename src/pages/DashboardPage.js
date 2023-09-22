@@ -23,19 +23,19 @@ function DashboardPage() {
     const dashboardTablesData = [
       {
         name: "Задачі",
-        columns: [{ name: "Очікування", status: "WAITING" }, { name: "В роботі", status: "IN_PROGRESS" }]
+        columns: [{ name: "Очікування", status: 1 }, { name: "В роботі", status: 2 }]
       },
       {
         name: "Коректування",
-        columns: [{ name: "Очікування", status: "CORRECTING_QUEUE" }, { name: "В роботі", status: "CORRECTING" }]
+        columns: [{ name: "Очікування", status: 3 }, { name: "В роботі", status: 4 }]
       },
       {
         name: "ОТК",
-        columns: [{ name: "Очікування", status: "OTK_QUEUE" }, { name: "В роботі", status: "OTK" }]
+        columns: [{ name: "Очікування", status: 5 }, { name: "В роботі", status: 6 }]
       },
       {
         name: "Завершено",
-        columns: [{ name: "Виконано", status: "DONE" }]
+        columns: [{ name: "Виконано", status: 7 }]
       }
     ];
 

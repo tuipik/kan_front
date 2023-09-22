@@ -11,6 +11,7 @@ import Select from "../custom/select/Select";
 import UserInfo from "../user/UserInfo";
 import useSettings from "../../hooks/use-settings";
 import {useSelector} from "react-redux";
+import useRerender from "../../hooks/use-rerender";
 
 const CREATE_TYPE = 'create';
 const UPDATE_TYPE = 'update';
@@ -29,14 +30,21 @@ function TaskForm({handleClose, incomeTask, formType}) {
   const [doCreateTask, createTaskData] = useCreateTaskMutation();
   const [doUpdateTask, updateTaskData] = useUpdateTaskMutation();
 
-  const { data: {is_admin, is_head_department, department} } = useSelector((state) => {
+  const {data: currentUser} = useSelector((state) => {
     return state.auth;
   });
 
   const {settings, isFetchingSettings, settingsError} = useSettings();
 
   const [task, setTask] = useState(incomeTask);
-  const { data: accounts, error: accountsErrors, isFetching: isAccountsFetching } = useFetchAccountsQuery(task.department, {skip: !task.department});
+  const [accountsQueryParams, setAccountsQueryParams] = useState({'department__id': task.department});
+  const {
+    data: accounts,
+    error: accountsErrors,
+    isFetching: isAccountsFetching
+  } = useFetchAccountsQuery(accountsQueryParams, {skip: !task.department});
+
+  const [selectsKey, rerenderSelects] = useRerender();
 
   const showErrors = useShowErrors();
 
@@ -49,13 +57,24 @@ function TaskForm({handleClose, incomeTask, formType}) {
     setTask({...task, [attr]: value});
   };
 
+  const handleDepartmentChange = (event) => {
+    handleAttrChange(event);
+    setAccountsQueryParams({'department__id': event.target.value})
+  };
+
+  const handleStatusChange = (event) => {
+    const attr = event.target.id;
+    const value = event.target.value;
+
+    setTask({...task, [attr]: value, user: null, user_obj: null});
+    setAccountsQueryParams({'department__statuses__id': event.target.value})
+    rerenderSelects();
+  };
+
   const handleSubmit = (event) => {
     event.preventDefault();
 
-    let mutation = doUpdateTask;
-    if (formType === CREATE_TYPE) {
-      mutation = doCreateTask;
-    }
+    let mutation = formType === CREATE_TYPE ? doCreateTask : doUpdateTask;
 
     mutation(task)
       .unwrap()
@@ -117,12 +136,17 @@ function TaskForm({handleClose, incomeTask, formType}) {
   ];
 
   const selectData = [];
-  if ((department.id === task.department) || is_admin) {
+  const isTaskFromUsersDepartment = (currentUser.department === task.department);
+
+  if (settings?.STATUSES && (currentUser.is_admin || isTaskFromUsersDepartment)) {
     selectData.push(
       {
         id: "status",
         value: task.status,
-        data: settings?.TASK_STATUSES,
+        onChange: handleStatusChange,
+        data: settings.STATUSES.reduce(
+          (obj, status_obj) => (obj[status_obj.id] = status_obj.translation, obj), {}
+        ),
         isFetching: isFetchingSettings,
         label: "статус",
         error: settingsError,
@@ -130,11 +154,12 @@ function TaskForm({handleClose, incomeTask, formType}) {
     );
   }
 
-  if (is_admin) {
+  if (currentUser.is_admin) {
     selectData.push(
       {
         id: "quarter",
         value: task.quarter,
+        onChange: handleAttrChange,
         data: settings?.YEAR_QUARTERS,
         isFetching: isFetchingSettings,
         label: "квартал",
@@ -143,34 +168,42 @@ function TaskForm({handleClose, incomeTask, formType}) {
       {
         id: "scale",
         value: task.scale,
+        onChange: handleAttrChange,
         data: settings?.TASK_SCALES,
         isFetching: isFetchingSettings,
-        label:"масштаб",
+        label: "масштаб",
         error: settingsError,
       },
-      {
-        id: "department",
-        value: task.department,
-        data: departments?.data ?
-          departments.data.reduce(
-            (obj, department) => (obj[department.id] = department.name, obj), {}
-          ) : null,
-        isFetching: isDepartmentsFetching,
-        label: "відділ",
-        error: departmentsErrors,
-      }
     );
+
+    if (formType === CREATE_TYPE) {
+      selectData.push(
+        {
+          id: "department",
+          value: task.department,
+          onChange: handleDepartmentChange,
+          data: departments?.data ?
+            departments.data.reduce(
+              (obj, department) => (obj[department.id] = department.name, obj), {}
+            ) : null,
+          isFetching: isDepartmentsFetching,
+          label: "відділ",
+          error: departmentsErrors,
+        }
+      )
+    }
   }
 
-  if ((is_head_department && department.id === task.department) || is_admin) {
+  if (( isTaskFromUsersDepartment) || currentUser.is_admin) {
     if (accounts?.data && task.department) {
       selectData.push(
         {
           id: "user",
           value: task.user,
-          data: accounts?.data ? accounts.data.reduce(
+          onChange: handleAttrChange,
+          data: accounts.data.reduce(
             (obj, account) => (obj[account.id] = <UserInfo data={account}/>, obj), {}
-          ) : null,
+          ),
           isFetching: isAccountsFetching,
           label: "користувача",
           error: accountsErrors,
@@ -181,24 +214,31 @@ function TaskForm({handleClose, incomeTask, formType}) {
   }
 
   const renderedInputs = inputsData.map(
-    (data) => <Input {...data} onChange={handleAttrChange} key={data.id}/>
+    data => <Input {...data} onChange={handleAttrChange} key={data.id}/>
   );
 
   let renderedSelects;
-  if ( departments && settings ) {
-    renderedSelects = selectData.map((data) => <Select
+  if (departments && settings) {
+    renderedSelects = selectData.map(data => <Select
       {...data}
       key={data.id}
-      onChange={handleAttrChange}
       error={settingsError}
     />);
   }
 
+  const handleClick = (e) => {
+    e.preventDefault();
+    console.log(task);
+    rerenderSelects();
+  }
+
   return (
     <form onSubmit={handleSubmit}>
-      {is_admin && renderedInputs}
-      {renderedSelects}
-      <button className="btn btn-primary">{createTaskData.isLoading || updateTaskData.isLoading ? 'Збереження...' : 'Зберегти'}</button>
+      {currentUser.is_admin && renderedInputs}
+      <div key={selectsKey}>{renderedSelects}</div>
+      <button
+        className="btn btn-primary">{createTaskData.isLoading || updateTaskData.isLoading ? 'Збереження...' : 'Зберегти'}</button>
+      <button onClick={handleClick}>show data</button>
     </form>
   );
 }
