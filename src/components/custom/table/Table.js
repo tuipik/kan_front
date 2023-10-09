@@ -23,7 +23,7 @@ function Table({ data, config, keyFn, striped, isCard}) {
 
   const wrapTaskCard = (task) => {
     if (task && isCard) {
-      const taskUserId = task.props.task.user.id
+      const taskUserId = task.props.task.user
       let style = {display: "flex", justifyContent: "center", padding: 8}
       style = Object.assign(style, highlightUsersTask(taskUserId))
       return (
