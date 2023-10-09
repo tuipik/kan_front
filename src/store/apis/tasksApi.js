@@ -30,11 +30,11 @@ const tasksApi = createApi({
         invalidatesTags: (result, error) => error ? [] : ['Tasks'],
       }),
       updateTask: builder.mutation({
-        query: (task) => {
+        query: ({taskId, updatedFields}) => {
           return {
-            url: `tasks/${task.id}`,
+            url: `tasks/${taskId}`,
             method: 'PATCH',
-            body: task
+            body: updatedFields
           } 
         },
         invalidatesTags: (result, error) => error ? [] : ['Tasks', 'Comments'],
