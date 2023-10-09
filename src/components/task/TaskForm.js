@@ -30,6 +30,9 @@ function TaskForm({handleClose, incomeTask, formType}) {
   const [doCreateTask, createTaskData] = useCreateTaskMutation();
   const [doUpdateTask, updateTaskData] = useUpdateTaskMutation();
 
+  const [taskNameRegexp, setTaskNameRegexp] = useState('^.+$');
+  const [taskNameExample, setTaskNameExample] = useState('');
+
   const {data: currentUser} = useSelector((state) => {
     return state.auth;
   });
@@ -37,6 +40,8 @@ function TaskForm({handleClose, incomeTask, formType}) {
   const {settings, isFetchingSettings, settingsError} = useSettings();
 
   const [task, setTask] = useState(incomeTask);
+  const [updatedFields, setUpdatedFields] = useState({});
+
   const [accountsQueryParams, setAccountsQueryParams] = useState({'department__id': task.department});
   const {
     data: accounts,
@@ -55,6 +60,15 @@ function TaskForm({handleClose, incomeTask, formType}) {
     const value = event.target.value;
 
     setTask({...task, [attr]: value});
+    if (formType === UPDATE_TYPE) {
+      setUpdatedFields({...updatedFields, [attr]: value})
+    }
+  };
+
+  const handleScaleChange = (event) => {
+    handleAttrChange(event);
+    setTaskNameRegexp(settings.TASK_NAME_REGEX[event.target.value][0]);
+    setTaskNameExample(settings.TASK_NAME_REGEX[event.target.value][1]);
   };
 
   const handleDepartmentChange = (event) => {
@@ -67,16 +81,21 @@ function TaskForm({handleClose, incomeTask, formType}) {
     const value = event.target.value;
 
     setTask({...task, [attr]: value, user: null, user_obj: null});
-    setAccountsQueryParams({'department__statuses__id': event.target.value})
+
+    if (formType === UPDATE_TYPE) {
+      setUpdatedFields({...updatedFields, [attr]: value});
+    }
+
+    setAccountsQueryParams({'department__statuses__id': value})
     rerenderSelects();
   };
 
   const handleSubmit = (event) => {
     event.preventDefault();
 
-    let mutation = formType === CREATE_TYPE ? doCreateTask : doUpdateTask;
+    let mutation = formType === CREATE_TYPE ? doCreateTask(task) : doUpdateTask({taskId: task.id, updatedFields});
 
-    mutation(task)
+    mutation
       .unwrap()
       .then((result) => {
         const body = `Задача ${result.data[0].name} успішно збережена`;
@@ -94,16 +113,16 @@ function TaskForm({handleClose, incomeTask, formType}) {
       label: "Назва",
       id: "name",
       value: task.name,
-      errorMessage: "Назва має бути наступного формату: ^[A-Z]-\d{1,3}-\d{1,3}-[A-Z]$, нариклад M-36-99-A",
-      pattern: "^[A-Z]-\\d{1,3}-\\d{1,3}-[A-Z]$",
+      errorMessage: `Назва має бути наступного формату: ${taskNameRegexp}, нариклад ${taskNameExample}`,
+      pattern: taskNameRegexp,
       required: true
     },
     {
       label: "Категорія",
       id: "category",
       value: task.category,
-      errorMessage: "Мінімальна довжина 3 символи, максимальна довжина 16 символів",
-      pattern: "^.{3,16}$",
+      errorMessage: "Мінімальна довжина 3 символи, максимальна довжина 255 символів",
+      pattern: "^.{3,255}$",
       required: true
     },
     {
@@ -168,7 +187,7 @@ function TaskForm({handleClose, incomeTask, formType}) {
       {
         id: "scale",
         value: task.scale,
-        onChange: handleAttrChange,
+        onChange: handleScaleChange,
         data: settings?.TASK_SCALES,
         isFetching: isFetchingSettings,
         label: "масштаб",
@@ -229,6 +248,7 @@ function TaskForm({handleClose, incomeTask, formType}) {
   const handleClick = (e) => {
     e.preventDefault();
     console.log(task);
+    console.log(updatedFields)
     rerenderSelects();
   }
 
