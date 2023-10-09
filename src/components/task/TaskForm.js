@@ -30,6 +30,9 @@ function TaskForm({handleClose, incomeTask, formType}) {
   const [doCreateTask, createTaskData] = useCreateTaskMutation();
   const [doUpdateTask, updateTaskData] = useUpdateTaskMutation();
 
+  const [taskNameRegexp, setTaskNameRegexp] = useState('^.+$');
+  const [taskNameExample, setTaskNameExample] = useState('');
+
   const {data: currentUser} = useSelector((state) => {
     return state.auth;
   });
@@ -55,6 +58,12 @@ function TaskForm({handleClose, incomeTask, formType}) {
     const value = event.target.value;
 
     setTask({...task, [attr]: value});
+  };
+
+  const handleScaleChange = (event) => {
+    handleAttrChange(event);
+    setTaskNameRegexp(settings.TASK_NAME_REGEX[event.target.value][0]);
+    setTaskNameExample(settings.TASK_NAME_REGEX[event.target.value][1]);
   };
 
   const handleDepartmentChange = (event) => {
@@ -94,8 +103,8 @@ function TaskForm({handleClose, incomeTask, formType}) {
       label: "Назва",
       id: "name",
       value: task.name,
-      errorMessage: "Назва має бути наступного формату: ^[A-Z]-\d{1,3}-\d{1,3}-[A-Z]$, нариклад M-36-99-A",
-      pattern: "^[A-Z]-\\d{1,3}-\\d{1,3}-[A-Z]$",
+      errorMessage: `Назва має бути наступного формату: ${taskNameRegexp}, нариклад ${taskNameExample}`,
+      pattern: taskNameRegexp,
       required: true
     },
     {
@@ -168,7 +177,7 @@ function TaskForm({handleClose, incomeTask, formType}) {
       {
         id: "scale",
         value: task.scale,
-        onChange: handleAttrChange,
+        onChange: handleScaleChange,
         data: settings?.TASK_SCALES,
         isFetching: isFetchingSettings,
         label: "масштаб",
