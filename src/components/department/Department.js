@@ -5,8 +5,7 @@ import DepartmentForm from "./DepartmentForm";
 import {useDeleteDepartmentMutation} from "../../store";
 import useShowSuccess from "../../hooks/use-show-success";
 import useShowErrors from "../../hooks/use-show-errors";
-import {AiOutlineEdit} from "react-icons/ai";
-import {GoTrash} from "react-icons/go";
+import Icon from "../custom/icon/Icon";
 
 export default function Department({ department }) {
 
@@ -30,8 +29,8 @@ export default function Department({ department }) {
   return (
     <div className="d-flex">
       <div className="flex-grow-1">{department.name}</div>
-      <div className="btn" onClick={handleShow}><AiOutlineEdit /></div>
-      <div className="btn" onClick={handleTrashClick}><GoTrash /></div>
+      <Icon onClick={handleShow} icon="edit" behaveLikeButton={true}/>
+      <Icon onClick={handleTrashClick} icon="delete" behaveLikeButton={true}/>
       <Modal
         show={show}
         handleClose={handleClose}
