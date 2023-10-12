@@ -32,9 +32,10 @@ export {
   useFetchTasksQuery,
   useCreateTaskMutation,
   useUpdateTaskMutation,
+  useDeleteTaskMutation,
   useFetchCommentsQuery,
   useCreateCommentMutation,
-  useDeleteTaskMutation,
+  useDeleteCommentMutation,
 } from './apis/tasksApi';
 
 export {
