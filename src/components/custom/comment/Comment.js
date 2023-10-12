@@ -1,13 +1,13 @@
 import {Card} from "react-bootstrap";
 import {useSelector} from "react-redux";
-import RenderButton from "../buttons/Button";
+import Icon from "../icon/Icon";
 
 const showEditIcons = (isLog, isAuthor, isAdmin) => {
   if ((!isLog && isAuthor) || (!isLog && isAdmin)) {
     return (
-      <div style={{display: "block", position: "absolute", top: 0, right: "4%"}}>
-        <RenderButton style={{padding: "3px 10px"}} button="edit"/>
-        <RenderButton style={{padding: "3px 10px"}} button="delete"/>
+      <div style={{position: "absolute", top: 0, right: "4%"}}>
+        <Icon icon="edit" behaveLikeButton={true}/>
+        <Icon icon="delete" behaveLikeButton={true}/>
       </div>
     )
   }

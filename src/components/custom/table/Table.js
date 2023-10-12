@@ -24,8 +24,7 @@ function Table({ data, config, keyFn, striped, isCard}) {
   const wrapTaskCard = (task) => {
     if (task && isCard) {
       const taskUserId = task.props.task.user
-      let style = {display: "flex", justifyContent: "center", padding: 8}
-      style = Object.assign(style, highlightUsersTask(taskUserId))
+      const style = {display: "flex", justifyContent: "center", padding: 8, ...highlightUsersTask(taskUserId)}
       return (
         <Card>
           <Card.Body style={style}>

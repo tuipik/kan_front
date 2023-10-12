@@ -4,7 +4,7 @@ import DepartmentForm from "./DepartmentForm";
 import {useDeleteDepartmentMutation} from "../../store";
 import useShowSuccess from "../../hooks/use-show-success";
 import useShowErrors from "../../hooks/use-show-errors";
-import RenderButton from "../custom/buttons/Button";
+import Icon from "../custom/icon/Icon";
 
 export default function Department({ department }) {
 
@@ -28,8 +28,8 @@ export default function Department({ department }) {
   return (
     <div className="d-flex">
       <div className="flex-grow-1">{department.name}</div>
-      <RenderButton onClick={handleShow} button="edit"/>
-      <RenderButton onClick={handleTrashClick} button="delete"/>
+      <Icon onClick={handleShow} icon="edit" behaveLikeButton={true}/>
+      <Icon onClick={handleTrashClick} icon="delete" behaveLikeButton={true}/>
       <Modal
         show={show}
         handleClose={handleClose}
