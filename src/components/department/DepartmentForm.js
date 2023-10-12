@@ -23,7 +23,7 @@ export default function DepartmentForm({ handleClose, incomeDepartment, create }
     doMutation(department)
       .unwrap()
       .then((result) => {
-        showSuccess({body: `Департамент ${department.name} успішно збережено`});
+        showSuccess({body: `Відділ ${department.name} успішно збережено`});
         handleClose();
       })
       .catch((error) => {

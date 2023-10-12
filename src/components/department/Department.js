@@ -19,10 +19,10 @@ export default function Department({ department }) {
   const showErrors = useShowErrors()
 
   const handleTrashClick = () => {
-    if (!window.confirm(`Видалити департамент ${department.name}?`)) return;
+    if (!window.confirm(`Видалити відділ ${department.name}?`)) return;
     doDeleteDepartment(department)
       .unwrap()
-      .then(result => showSuccess({body: `Департамент ${department.name} успішно видален`}))
+      .then(result => showSuccess({body: `Відділ ${department.name} успішно видален`}))
       .catch(error => showErrors(error.data))
   }
 
@@ -34,7 +34,7 @@ export default function Department({ department }) {
       <Modal
         show={show}
         handleClose={handleClose}
-        head="Змінити дані департаменту"
+        head="Змінити дані відділу"
         body={<DepartmentForm incomeDepartment={department} handleClose={handleClose} />}
       />
     </div>

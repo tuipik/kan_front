@@ -144,7 +144,7 @@ function TaskForm({handleClose, incomeTask, formType}) {
       required: true,
     },
     {
-      label: "Час на ОТК",
+      label: "Час на ВТК",
       id: "otk_time_estimate",
       value: task.otk_time_estimate,
       type: "number",

@@ -43,7 +43,7 @@ function Navbar() {
           <Link className="nav-link" to={'dashboard'}>Дошка</Link>
         </li>
         {is_admin ? <li className="nav-item">
-          <Link className="nav-link" to={'departments'}>Департаменти</Link>
+          <Link className="nav-link" to={'departments'}>Відділи</Link>
         </li> : ''}
     </ul>
     : ''

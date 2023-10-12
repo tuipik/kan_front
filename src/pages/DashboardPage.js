@@ -30,7 +30,7 @@ function DashboardPage() {
         columns: [{ name: "Очікування", status: 3 }, { name: "В роботі", status: 4 }]
       },
       {
-        name: "ОТК",
+        name: "ВТК",
         columns: [{ name: "Очікування", status: 5 }, { name: "В роботі", status: 6 }]
       },
       {

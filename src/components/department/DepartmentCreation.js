@@ -10,11 +10,11 @@ export default function DepartmentCreation() {
 
   return (
     <>
-      <Button className="btn btn-primary" onClick={handleShow}>Створити новий департамент <b>+</b></Button>
+      <Button className="btn btn-primary" onClick={handleShow}>Створити новий відділ <b>+</b></Button>
       <Modal
         show={show}
         handleClose={handleClose}
-        head="Новий департамент"
+        head="Новий відділ"
         body={<DepartmentForm handleClose={handleClose} incomeDepartment={new DepartmentModel()} create={true} />}
       />
     </>

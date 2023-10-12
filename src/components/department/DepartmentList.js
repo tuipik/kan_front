@@ -16,15 +16,15 @@ export default function DepartmentList() {
         }
       </ul>;
   } else if (isFetching) {
-    renderedDepartments = <div>Заванаження департаментів...</div>
+    renderedDepartments = <div>Заванаження відділів...</div>
   } else {
     console.log(error);
-    renderedDepartments = <div>Помилка завантаженяя департаментів</div>
+    renderedDepartments = <div>Помилка завантаженяя відділів</div>
   }
 
   return (
     <>
-      <h5 className="text-center">Список департаментів:</h5>
+      <h5 className="text-center">Список відділів:</h5>
       {renderedDepartments}
     </>
   );
