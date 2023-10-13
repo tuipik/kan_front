@@ -5,8 +5,12 @@ import useShowErrors from "../../hooks/use-show-errors";
 import useShowSuccess from "../../hooks/use-show-success";
 import useAccountsSelect from "../../hooks/use-accounts-select";
 import Checkbox from "../custom/checkbox/Checkbox";
+import useSettings from "../../hooks/use-settings";
+import Select from "../custom/select/Select";
 
 export default function DepartmentForm({ handleClose, incomeDepartment, create }) {
+
+  const {settings, isFetchingSettings, settingsError} = useSettings();
 
   const [department, setDepartment] = useState(incomeDepartment);
 
@@ -34,7 +38,9 @@ export default function DepartmentForm({ handleClose, incomeDepartment, create }
 
   const handleAttrChange = (event) => {
     const attr = event.target.id;
-    const value = event.target.value;
+    const value = event.target.multiple ?
+      Array.from(event.target.selectedOptions, option => option.value)
+      : event.target.value;
     setDepartment({...department, [attr]: value});
   };
 
@@ -46,6 +52,11 @@ export default function DepartmentForm({ handleClose, incomeDepartment, create }
       label: "Обрати керівника",
       handleAttrChange
     });
+
+  const statuses = settings?.STATUSES;
+  const statusData = statuses && statuses.reduce(
+    (obj, status_obj) => (obj[status_obj.id] = status_obj.translation, obj), {}
+  );
 
   return (
     <form onSubmit={handleSubmit}>
@@ -59,13 +70,15 @@ export default function DepartmentForm({ handleClose, incomeDepartment, create }
       />
       <div className="mb-3">{!create && renderedUserSelect}</div>
       <Checkbox value={department.is_verifier} onChange={handleAttrChange} id="is_verifier" label="Перевіряючий відділ" />
-      <Input
-        id="ordering"
-        placeholder="Номер в черзі відображення"
-        value={department.ordering || ''}
-        onChange={handleAttrChange}
-        type="number"
-        required
+      <Select
+       id="statuses"
+       data={statusData}
+       label="статуси"
+       value={department.statuses}
+       onChange={handleAttrChange}
+       isFetching={isFetchingSettings}
+       error={settingsError}
+       multiple={true}
       />
       <button className="btn btn-primary">{data.isLoading ? 'Збереження...' : 'Зберегти'}</button>
     </form>
