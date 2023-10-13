@@ -18,7 +18,12 @@ export default function TaskTimeStatuses ({ task }) {
 
   return (
     <div className="col">
-      <Table data={data} config={config} keyFn={keyFn} />
+      <Table
+        data={data}
+        config={config}
+        keyFn={keyFn}
+        classes="table table-striped"
+      />
     </div>
   )
 }

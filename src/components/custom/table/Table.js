@@ -2,8 +2,7 @@ import { Fragment } from 'react';
 import {useSelector} from "react-redux";
 import {Card} from "react-bootstrap";
 
-
-function Table({ data, config, keyFn, striped, isCard}) {
+function Table({ data, config, keyFn, classes, isCard}) {
 
   const authUserId = useSelector((state) => state.auth.data.id);
 
@@ -55,10 +54,8 @@ function Table({ data, config, keyFn, striped, isCard}) {
     );
   });
 
-  const tableClass = striped ? "table table-striped" : "table";
-
   return (
-    <table className={tableClass}>
+    <table className={classes}>
       <thead>
         <tr>{renderedHeaders}</tr>
       </thead>
