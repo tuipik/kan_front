@@ -7,7 +7,8 @@ export default function Select(
     data,
     isFetching,
     error,
-    label
+    label,
+    multiple
   }
 ) {
 
@@ -25,13 +26,14 @@ export default function Select(
     fullLabel = `Помилка завантаження (${label})`;
   }
 
-  const renderedScaleSelect = <select
+  const renderedScaleSelect = <select style={{'height': 'auto'}}
     id={id}
     defaultValue={value}
     onChange={onChange}
     className="form-select mb-3"
     disabled={disabled}
     name={id}
+    multiple={multiple}
   >
     <option value="">{`--- ${fullLabel} ---`}</option>
     {options}
