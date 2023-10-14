@@ -11,6 +11,29 @@ import TaskForm from "./TaskForm";
 import {UPDATE_TYPE} from "./TaskForm";
 import {useState} from "react";
 import {useSelector} from "react-redux";
+import {Card} from "react-bootstrap";
+
+const setOverdueStyles = (styles, statuses, task, prefix) => {
+  const doneTimeKey = `${prefix}_time_done`;
+  const estimateTimeKey = `${prefix}_time_estimate`;
+  if (statuses.includes(task.status_obj.name) && task[doneTimeKey] >= task[estimateTimeKey]){
+    styles.background = 'rgb(256 0 0 / 0.4)';
+  }
+}
+
+const getTaskStyles = (task) => {
+  const styles = {display: "flex", justifyContent: "center", padding: 8};
+
+  if (['IN_PROGRESS', 'CORRECTING', 'VTK'].includes(task.status_obj.name)) {
+    styles.background = "rgb(67 208 72 / 0.25)";
+  }
+
+  setOverdueStyles(styles,['WAITING', 'IN_PROGRESS'], task, 'change');
+  setOverdueStyles(styles, ['CORRECTING_QUEUE', 'CORRECTING'], task, 'correct');
+  setOverdueStyles(styles, ['VTK_QUEUE', 'VTK'], task, 'otk');
+
+  return styles;
+}
 
 export default function TaskDetails({ task }) {
 
@@ -65,7 +88,14 @@ export default function TaskDetails({ task }) {
 
   const renderedFooter = <Button variant="primary" onClick={hideEditTask}>Закрити</Button>;
 
-  const renderedTrigger = <Link to="#" onClick={handleShowModal}>{task.name}</Link>;
+  const renderedTrigger =
+    <Card>
+      <Card.Body style={getTaskStyles(task)}>
+        <Card.Text>
+          <Link to="#" onClick={handleShowModal}>{task.name}</Link>
+        </Card.Text>
+      </Card.Body>
+    </Card>;
 
   return (
     <Task
