@@ -120,9 +120,11 @@ function TaskForm({handleClose, incomeTask, formType}) {
     {
       label: "Категорія",
       id: "category",
+      type: "number",
+      min: 3,
+      max: 10,
       value: task.category,
-      errorMessage: "Мінімальна довжина 3 символи, максимальна довжина 255 символів",
-      pattern: "^.{3,255}$",
+      errorMessage: "Мінімально 3, максимум 10",
       required: true
     },
     {
