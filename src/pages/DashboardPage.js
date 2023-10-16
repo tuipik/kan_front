@@ -9,11 +9,16 @@ function DashboardPage() {
 
   const isAdmin = useSelector((state) => state.auth.data.is_admin);
 
-  const renderedCreateBtn = isAdmin
-    ? <TaskCreation />
-    : '';
+  const renderedCreateBtn = isAdmin ? <TaskCreation /> : '';
 
   let content;
+
+  const columnName = (name, status) => {
+    const taskCount = data.data.reduce(
+      (count, task) => task.status === status ? count + 1: count, 0
+    );
+    return !!taskCount? `${name} (${taskCount})` : name;
+  };
 
   if (isFetching) {
     content = <div>Завантаженя...</div>
@@ -23,19 +28,19 @@ function DashboardPage() {
     const dashboardTablesData = [
       {
         name: "Задачі",
-        columns: [{ name: "Очікування", status: 1 }, { name: "В роботі", status: 2 }]
+        columns: [{ name: columnName("Очікування", 1), status: 1 }, { name: columnName("В роботі", 2), status: 2 }]
       },
       {
         name: "Коректування",
-        columns: [{ name: "Очікування", status: 3 }, { name: "В роботі", status: 4 }]
+        columns: [{ name: columnName("Очікування", 3), status: 3 }, { name: columnName("В роботі", 4), status: 4 }]
       },
       {
         name: "ВТК",
-        columns: [{ name: "Очікування", status: 5 }, { name: "В роботі", status: 6 }]
+        columns: [{ name: columnName("Очікування", 5), status: 5 }, { name: columnName("В роботі", 6), status: 6 }]
       },
       {
         name: "Завершено",
-        columns: [{ name: "Виконано", status: 7 }]
+        columns: [{ name: columnName("Виконано", 7), status: 7 }]
       }
     ];
 
