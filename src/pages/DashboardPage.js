@@ -2,12 +2,16 @@ import { useSelector } from "react-redux"
 import { useFetchTasksQuery } from "../store";
 import DashboardColumnTable from "../components/DashboardColumnTable";
 import TaskCreation from "../components/task/TaskCreation";
+import RadioGroup from "../components/custom/radioGroup/RadioGroup";
+import {useState} from "react";
 
 function DashboardPage() {
 
   const { data, error, isFetching } = useFetchTasksQuery();
 
   const isAdmin = useSelector((state) => state.auth.data.is_admin);
+
+  const [orderParam, setOrderParam] = useState('category');
 
   const renderedCreateBtn = isAdmin ? <TaskCreation /> : '';
 
@@ -54,6 +58,7 @@ function DashboardPage() {
         tableName={table.name}
         columns={table.columns}
         data={tableData}
+        orderParam={orderParam}
       />
     });
 
@@ -61,11 +66,17 @@ function DashboardPage() {
       <div className="row">
         {renderedDashboardTables}
       </div>
-  }
+  };
 
   return (
     <div>
       {renderedCreateBtn}
+      <RadioGroup
+        value={orderParam}
+        setValue={setOrderParam}
+        label="Сортування"
+        options={[{value: 'category', label: 'категорія'}, {value: 'name', label: 'номенклатура'} ]}
+      />
       {content}
     </div>
   )
