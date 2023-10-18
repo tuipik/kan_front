@@ -2,9 +2,9 @@ FROM node:20.8.0-bookworm-slim AS builder
 
 WORKDIR /app
 COPY package.json package-lock.json ./
+RUN npm ci
 COPY public/ public/
 COPY src/ src/
-RUN npm ci
 RUN npm run build
 
 FROM nginx:1.23.2-alpine
