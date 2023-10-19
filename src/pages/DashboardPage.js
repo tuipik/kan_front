@@ -2,12 +2,16 @@ import { useSelector } from "react-redux"
 import { useFetchTasksQuery } from "../store";
 import DashboardColumnTable from "../components/DashboardColumnTable";
 import TaskCreation from "../components/task/TaskCreation";
+import {useState} from "react";
+import TaskSievePanel from "../components/task/TaskSievePanel";
 
 function DashboardPage() {
 
-  const { data, error, isFetching } = useFetchTasksQuery();
-
   const isAdmin = useSelector((state) => state.auth.data.is_admin);
+
+  const [queryParams, setQueryParams] = useState({});
+
+  const { data, error, isFetching } = useFetchTasksQuery(queryParams);
 
   const renderedCreateBtn = isAdmin ? <TaskCreation /> : '';
 
@@ -61,11 +65,15 @@ function DashboardPage() {
       <div className="row">
         {renderedDashboardTables}
       </div>
-  }
+  };
 
   return (
     <div>
       {renderedCreateBtn}
+      <TaskSievePanel
+        queryParams={queryParams}
+        changeQueryParams={setQueryParams}
+      />
       {content}
     </div>
   )

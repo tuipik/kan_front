@@ -69,7 +69,12 @@ export default function DepartmentForm({ handleClose, incomeDepartment, create }
         required
       />
       <div className="mb-3">{!create && renderedUserSelect}</div>
-      <Checkbox value={department.is_verifier} onChange={handleAttrChange} id="is_verifier" label="Перевіряючий відділ" />
+      <Checkbox
+        value={department.is_verifier}
+        onChange={() => setDepartment({...department, is_verifier: !department.is_verifier})}
+        id="is_verifier"
+        label="Перевіряючий відділ"
+      />
       <Select
        id="statuses"
        data={statusData}

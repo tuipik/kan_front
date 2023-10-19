@@ -9,13 +9,9 @@ export default function DashboardColumnTable({ tableName, columns, data }) {
       render: (task) => {
         if (task.status === column.status)
           return <TaskDetails task={task} />
-      },
+      }
     }
   });
-
-  const keyFn = (task) => {
-    return task.id;
-  };
 
   return (
     <div className="col">
@@ -23,7 +19,7 @@ export default function DashboardColumnTable({ tableName, columns, data }) {
       <SortableTable
         data={data}
         config={config}
-        keyFn={keyFn}
+        keyFn={(task) => task.id}
         classes="table table-bordered table-striped"
       />
     </div>
