@@ -11,10 +11,11 @@ const tasksApi = createApi({
   endpoints(builder) {
     return {
       fetchTasks: builder.query({
-        query: () => {
+        query: (params) => {
           return {
             url: 'tasks',
             method: 'GET',
+            params
           }
         },
         providesTags: ['Tasks']

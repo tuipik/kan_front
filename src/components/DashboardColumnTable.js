@@ -1,7 +1,7 @@
 import SortableTable from "./custom/table/SortableTable";
 import TaskDetails from "./task/TaskDetails";
 
-export default function DashboardColumnTable({ tableName, columns, data, orderParam }) {
+export default function DashboardColumnTable({ tableName, columns, data }) {
 
   const config = columns.map((column) => {
     return {
@@ -9,8 +9,7 @@ export default function DashboardColumnTable({ tableName, columns, data, orderPa
       render: (task) => {
         if (task.status === column.status)
           return <TaskDetails task={task} />
-      },
-      sortValue: (task) => task[orderParam]
+      }
     }
   });
 
