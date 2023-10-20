@@ -1,5 +1,5 @@
-import SortableTable from "./SortableTable";
-import Task from "./Task";
+import SortableTable from "./custom/table/SortableTable";
+import TaskDetails from "./task/TaskDetails";
 
 export default function DashboardColumnTable({ tableName, columns, data }) {
 
@@ -8,19 +8,20 @@ export default function DashboardColumnTable({ tableName, columns, data }) {
       label: column.name,
       render: (task) => {
         if (task.status === column.status)
-          return <Task task={task} />
-      },
+          return <TaskDetails task={task} />
+      }
     }
   });
 
-  const keyFn = (task) => {
-    return task.id;
-  };
-
   return (
     <div className="col">
-      <h3>{tableName}</h3>
-      <SortableTable data={data} config={config} keyFn={keyFn} />
+      <h5 style={{'textAlign': 'center'}}>{tableName}</h5>
+      <SortableTable
+        data={data}
+        config={config}
+        keyFn={(task) => task.id}
+        classes="table table-bordered table-striped"
+      />
     </div>
   );
 }

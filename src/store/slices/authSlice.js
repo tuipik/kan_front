@@ -1,22 +1,19 @@
 import { createSlice } from "@reduxjs/toolkit";
 import { loginThunk } from "../thunks/login";
 
+const initialState = {
+  data: {},
+  isLoading: false,
+  isAuthenticated: false,
+  error: null,
+}
+
 const authSlice = createSlice({
   name: 'auth',
-  initialState: {
-    data: {},
-    isLoading: false,
-    error: null,
+  initialState,
+  reducers: {
+    logout: ({ state }) => initialState 
   },
-  // reducers: {
-  //   logout: () => { },
-  //   setAuth: (state, action) => {
-  //     console.log(state);
-  //     console.log(action);
-  //     state = action.payload;
-  //     console.log(state);
-  //   }
-  // },
   extraReducers(builder) {
     // Login
     builder.addCase(loginThunk.pending, (state, action) => {
@@ -24,9 +21,10 @@ const authSlice = createSlice({
     });
 
     builder.addCase(loginThunk.fulfilled, (state, action) => {
-      state.isLoading = false;
       const ap = action.payload.data.data[0];
       state.data = ap;
+      state.isLoading = false;
+      state.isAuthenticated = true;
     });
 
     builder.addCase(loginThunk.rejected, (state, action) => {
@@ -37,3 +35,4 @@ const authSlice = createSlice({
 });
 
 export const authReducer = authSlice.reducer;
+export const { logout } = authSlice.actions;

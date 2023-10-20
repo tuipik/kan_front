@@ -1,32 +1,60 @@
-import { Link } from "react-router-dom";
+import { useDispatch, useSelector } from "react-redux";
+import { Link, useNavigate } from "react-router-dom";
+import {logout} from "../store";
+import { tasksApi } from "../store/apis/tasksApi";
+import { accountsApi } from "../store/apis/accountsApi";
+import { departmentsApi } from "../store/apis/departmentsApi";
+import {settingsApi} from "../store/apis/settingsApi";
 
 function Navbar() {
+
+  const dispatch = useDispatch();
+  const navigate = useNavigate();
+
+  const { isAuthenticated, data: {username, is_admin} } = useSelector((state) => {
+    return state.auth;
+  });
+
+  const handleExitClick = () => {
+    dispatch(logout());
+    dispatch(settingsApi.util.resetApiState());
+    dispatch(tasksApi.util.resetApiState());
+    dispatch(accountsApi.util.resetApiState());
+    dispatch(departmentsApi.util.resetApiState());
+    dispatch(departmentsApi.util.resetApiState());
+    navigate("/login");
+  };
+
+  let renderdRightPart = isAuthenticated
+    ? <>
+      <a className="nav-link disabled" href="#" tabIndex="-1" aria-disabled="true">{username}</a>
+      <span className="navbar-text" onClick={handleExitClick} style={{ cursor: "pointer" }} >
+        Вихід
+      </span>
+    </>
+
+    : <li className="nav-item">
+      <Link className="nav-link" to={'login'}>Логін</Link>
+    </li>;
+
+  const renderedLeftPart = isAuthenticated
+    ? <ul className="navbar-nav me-auto mb-2 mb-lg-0">
+        <li className="nav-item">
+          <Link className="nav-link" to={'dashboard'}>Дошка</Link>
+        </li>
+        {is_admin ? <li className="nav-item">
+          <Link className="nav-link" to={'departments'}>Відділи</Link>
+        </li> : ''}
+    </ul>
+    : ''
+
   return (
     <nav className="navbar navbar-expand-lg navbar-light bg-light">
       <div className="container-fluid">
-        <button className="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarTogglerDemo03" aria-controls="navbarTogglerDemo03" aria-expanded="false" aria-label="Toggle navigation">
-          <span className="navbar-toggler-icon"></span>
-        </button>
-        <a className="navbar-brand" href="#">Navbar</a>
         <div className="collapse navbar-collapse" id="navbarTogglerDemo03">
-          <ul className="navbar-nav me-auto mb-2 mb-lg-0">
-            <li className="nav-item">
-              <Link className="nav-link" to={'page1'}>Page1</Link>
-            </li>
-            <li className="nav-item">
-              <Link className="nav-link" to={'page2'}>Page2</Link>
-            </li>
-            <li className="nav-item">
-              <Link className="nav-link" to={'dashboard'}>Дошка</Link>
-            </li>
-            <li className="nav-item">
-              <a className="nav-link" href="#">Link</a>
-            </li>
-          </ul>
+          {renderedLeftPart}
           <ul className="navbar-nav justify-content-end">
-            <li className="nav-item">
-              <Link className="nav-link" to={'login'}>Логін</Link>
-            </li>
+            {renderdRightPart}
           </ul>
         </div>
       </div>
