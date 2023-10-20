@@ -8,22 +8,31 @@ export default function Select(
     isFetching,
     error,
     label,
-    multiple
+    multiple,
+    skipFirstOptionDashes,
+    skipChoiceWord,
+    firstOption
   }
 ) {
 
+  const EMPTY_CHOICE_APPENDIX = '---';
+  const CHOICE_WORD = 'Обрати ';
+
   let options;
-  let fullLabel = `Обрати ${label}`;
+  let firstOptionLabel = '';
 
   if (data) {
     options = Object.entries(data).map(([value, key]) => {
       return <option key={value} value={value}>{key}</option>
     });
-    fullLabel = `Обрати ${label}`
+    firstOptionLabel = !!firstOption ? firstOption : label;
+    const appendix = skipFirstOptionDashes ? '' : EMPTY_CHOICE_APPENDIX;
+    const choiceWord = skipChoiceWord ? '' : CHOICE_WORD;
+    firstOptionLabel = `${appendix}${choiceWord}${firstOptionLabel}${appendix}`;
   } else if (isFetching) {
-    fullLabel = `Завантаження (${label}) ...`;
+    firstOptionLabel = `Завантаження (${label}) ...`;
   } else if (error) {
-    fullLabel = `Помилка завантаження (${label})`;
+    firstOptionLabel = `Помилка завантаження (${label})`;
   }
 
   const renderedScaleSelect = <select style={{'height': 'auto'}}
@@ -35,7 +44,7 @@ export default function Select(
     name={id}
     multiple={multiple}
   >
-    <option value="">{`--- ${fullLabel} ---`}</option>
+    <option value="">{firstOptionLabel}</option>
     {options}
   </select>
 

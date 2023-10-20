@@ -1,5 +1,6 @@
 div.task-panel {
     background-color: #F2F2F2;
-    width: fit-content;
     padding: 10px;
+    margin-bottom: 10px;
+    margin-top: 20px;
 }

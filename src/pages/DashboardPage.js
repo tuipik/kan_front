@@ -9,7 +9,7 @@ function DashboardPage() {
 
   const isAdmin = useSelector((state) => state.auth.data.is_admin);
 
-  const [queryParams, setQueryParams] = useState({});
+  const [queryParams, setQueryParams] = useState({year: new Date().getFullYear()});
 
   const { data, error, isFetching } = useFetchTasksQuery(queryParams);
 
