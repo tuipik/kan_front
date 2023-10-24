@@ -147,8 +147,8 @@ function TaskForm({handleClose, incomeTask, formType}) {
     },
     {
       label: "Час на ВТК",
-      id: "otk_time_estimate",
-      value: task.otk_time_estimate,
+      id: "vtk_time_estimate",
+      value: task.vtk_time_estimate,
       type: "number",
       min: 3,
       max: 2000,

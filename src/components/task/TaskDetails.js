@@ -30,7 +30,7 @@ const getTaskStyles = (task) => {
 
   setOverdueStyles(styles,['WAITING', 'IN_PROGRESS'], task, 'change');
   setOverdueStyles(styles, ['CORRECTING_QUEUE', 'CORRECTING'], task, 'correct');
-  setOverdueStyles(styles, ['VTK_QUEUE', 'VTK'], task, 'otk');
+  setOverdueStyles(styles, ['VTK_QUEUE', 'VTK'], task, 'vtk');
 
   return styles;
 }
