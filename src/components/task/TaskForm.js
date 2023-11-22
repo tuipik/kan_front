@@ -47,7 +47,7 @@ function TaskForm({handleClose, incomeTask, formType}) {
     data: accounts,
     error: accountsErrors,
     isFetching: isAccountsFetching
-  } = useFetchAccountsQuery(accountsQueryParams, {skip: !task.department});
+  } = useFetchAccountsQuery({}, {skip: !task.department});
 
   const [selectsKey, rerenderSelects] = useRerender();
 
@@ -164,21 +164,18 @@ function TaskForm({handleClose, incomeTask, formType}) {
   ];
 
   const selectData = [];
-  const isTaskFromUsersDepartment = (currentUser.department === task.department);
 
-  if (settings?.TASK_STATUSES && (currentUser.is_admin || isTaskFromUsersDepartment)) {
-    selectData.push(
-      {
-        id: "status",
-        value: task.status,
-        onChange: handleStatusChange,
-        data: settings.TASK_STATUSES,
-        isFetching: isFetchingSettings,
-        label: "статус",
-        error: settingsError,
-      }
-    );
-  }
+  selectData.push(
+    {
+      id: "status",
+      value: task.status,
+      onChange: handleStatusChange,
+      data: settings?.TASK_STATUSES,
+      isFetching: isFetchingSettings,
+      label: "статус",
+      error: settingsError,
+    }
+  );
 
   if (currentUser.is_admin) {
     selectData.push(
@@ -202,7 +199,7 @@ function TaskForm({handleClose, incomeTask, formType}) {
       },
     );
 
-    if (formType === CREATE_TYPE) {
+    if (formType === CREATE_TYPE || currentUser.is_admin || currentUser.id === task.department_obj.head) {
       selectData.push(
         {
           id: "department",
@@ -220,23 +217,21 @@ function TaskForm({handleClose, incomeTask, formType}) {
     }
   }
 
-  if (( isTaskFromUsersDepartment) || currentUser.is_admin) {
-    if (accounts?.data && task.department) {
-      selectData.push(
-        {
-          id: "user",
-          value: task.user,
-          onChange: handleAttrChange,
-          data: accounts.data.reduce(
-            (obj, account) => (obj[account.id] = <UserInfo data={account}/>, obj), {}
-          ),
-          isFetching: isAccountsFetching,
-          label: "користувача",
-          error: accountsErrors,
-          disabled: !task.department,
-        }
-      );
-    }
+  if (accounts?.data && task.department) {
+    selectData.push(
+      {
+        id: "user",
+        value: task.user,
+        onChange: handleAttrChange,
+        data: accounts.data.reduce(
+          (obj, account) => (obj[account.id] = <UserInfo data={account}/>, obj), {}
+        ),
+        isFetching: isAccountsFetching,
+        label: "користувача",
+        error: accountsErrors,
+        disabled: !task.department,
+      }
+    );
   }
 
   const renderedInputs = inputsData.map(
