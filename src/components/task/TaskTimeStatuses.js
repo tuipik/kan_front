@@ -3,9 +3,9 @@ import Table from "../custom/table/Table";
 export default function TaskTimeStatuses ({ task }) {
 
   const data = [
-    {name: 'Оновлення', estimate: task.change_time_estimate, fact: task.change_time_done },
-    {name: 'Коректування', estimate: task.correct_time_estimate, fact: task.correct_time_done },
-    {name: 'ВТК', estimate: task.otk_time_estimate, fact: task.otk_time_done },
+    {name: 'Оновлення', estimate: task.editing_time_estimate, fact: task.editing_time_done },
+    {name: 'Коректування', estimate: task.correcting_time_estimate, fact: task.correcting_time_done },
+    {name: 'ВТК', estimate: task.tc_time_estimate, fact: task.tc_time_done },
   ];
 
   const config = [

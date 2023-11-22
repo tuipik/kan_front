@@ -16,7 +16,7 @@ import {Card} from "react-bootstrap";
 const setOverdueStyles = (styles, statuses, task, prefix) => {
   const doneTimeKey = `${prefix}_time_done`;
   const estimateTimeKey = `${prefix}_time_estimate`;
-  if (statuses.includes(task.status_obj.name) && task[doneTimeKey] >= task[estimateTimeKey]){
+  if (statuses.includes(task.status) && task[doneTimeKey] >= task[estimateTimeKey]){
     styles.background = 'rgb(256 0 0 / 0.4)';
   }
 }
@@ -24,7 +24,7 @@ const setOverdueStyles = (styles, statuses, task, prefix) => {
 const getTaskStyles = (task) => {
   const styles = {display: "flex", justifyContent: "center", padding: 8};
 
-  if (['IN_PROGRESS', 'CORRECTING', 'VTK'].includes(task.status_obj.name)) {
+  if (['IN_PROGRESS', 'CORRECTING', 'VTK'].includes(task.status)) {
     styles.background = "rgb(67 208 72 / 0.25)";
   }
 

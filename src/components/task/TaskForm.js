@@ -129,8 +129,8 @@ function TaskForm({handleClose, incomeTask, formType}) {
     },
     {
       label: "Час на оновлення",
-      id: "change_time_estimate",
-      value: task.change_time_estimate,
+      id: "editing_time_estimate",
+      value: task.editing_time_estimate,
       type: "number",
       min: 3,
       max: 2000,
@@ -138,8 +138,8 @@ function TaskForm({handleClose, incomeTask, formType}) {
     },
     {
       label: "Час на коректуру",
-      id: "correct_time_estimate",
-      value: task.correct_time_estimate,
+      id: "correcting_time_estimate",
+      value: task.correcting_time_estimate,
       type: "number",
       min: 3,
       max: 2000,
@@ -147,8 +147,8 @@ function TaskForm({handleClose, incomeTask, formType}) {
     },
     {
       label: "Час на ВТК",
-      id: "otk_time_estimate",
-      value: task.otk_time_estimate,
+      id: "tc_time_estimate",
+      value: task.tc_time_estimate,
       type: "number",
       min: 3,
       max: 2000,
@@ -159,15 +159,13 @@ function TaskForm({handleClose, incomeTask, formType}) {
   const selectData = [];
   const isTaskFromUsersDepartment = (currentUser.department === task.department);
 
-  if (settings?.STATUSES && (currentUser.is_admin || isTaskFromUsersDepartment)) {
+  if (settings?.TASK_STATUSES && (currentUser.is_admin || isTaskFromUsersDepartment)) {
     selectData.push(
       {
         id: "status",
         value: task.status,
         onChange: handleStatusChange,
-        data: settings.STATUSES.reduce(
-          (obj, status_obj) => (obj[status_obj.id] = status_obj.translation, obj), {}
-        ),
+        data: settings.TASK_STATUSES,
         isFetching: isFetchingSettings,
         label: "статус",
         error: settingsError,
