@@ -27,6 +27,9 @@ const getTaskStyles = (task) => {
   if (['IN_PROGRESS', 'CORRECTING', 'VTK'].includes(task.status)) {
     styles.background = "rgb(67 208 72 / 0.25)";
   }
+  if (task.status === 'DONE') {
+    styles.background = "rgb(179 204, 204)";
+  }
 
   setOverdueStyles(styles,['WAITING', 'IN_PROGRESS'], task, 'change');
   setOverdueStyles(styles, ['CORRECTING_QUEUE', 'CORRECTING'], task, 'correct');
@@ -92,7 +95,7 @@ export default function TaskDetails({ task }) {
     <Card>
       <Card.Body style={getTaskStyles(task)}>
         <Card.Text>
-          <Link to="#" onClick={handleShowModal}>{task.name}</Link>
+          <Link to="#" onClick={handleShowModal}>{task.name} ({task.category})</Link>
         </Card.Text>
       </Card.Body>
     </Card>;

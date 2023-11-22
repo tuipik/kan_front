@@ -118,6 +118,13 @@ function TaskForm({handleClose, incomeTask, formType}) {
       required: true
     },
     {
+      label: "Рік",
+      id: "year",
+      type: "number",
+      value: task.year,
+      required: true
+    },
+    {
       label: "Категорія",
       id: "category",
       type: "number",
