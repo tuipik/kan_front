@@ -32,19 +32,25 @@ function DashboardPage() {
     const dashboardTablesData = [
       {
         name: "Задачі",
-        columns: [{ name: columnName("Очікування", 1), status: 1 }, { name: columnName("В роботі", 2), status: 2 }]
+        columns: [
+          { name: columnName("Очікування", "EDITING_QUEUE"), status: "EDITING_QUEUE" },
+          { name: columnName("В роботі", "EDITING"), status: "EDITING" }]
       },
       {
         name: "Коректування",
-        columns: [{ name: columnName("Очікування", 3), status: 3 }, { name: columnName("В роботі", 4), status: 4 }]
+        columns: [
+          { name: columnName("Очікування", "CORRECTING_QUEUE"), status: "CORRECTING_QUEUE" },
+          { name: columnName("В роботі", "CORRECTING"), status: "CORRECTING" }]
       },
       {
         name: "ВТК",
-        columns: [{ name: columnName("Очікування", 5), status: 5 }, { name: columnName("В роботі", 6), status: 6 }]
+        columns: [
+          { name: columnName("Очікування", "TC_QUEUE"), status: "TC_QUEUE" },
+          { name: columnName("В роботі", "TC"), status: "TC" }]
       },
       {
         name: "Завершено",
-        columns: [{ name: columnName("Виконано", 7), status: 7 }]
+        columns: [{ name: columnName("Виконано", "DONE"), status: "DONE" }]
       }
     ];
 

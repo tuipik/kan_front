@@ -36,15 +36,15 @@ export default function TaskSievePanel({ queryParams, changeQueryParams }) {
     const eventValue = event.target.value;
     if (orderParam !== eventValue) {
       setOrderParam(eventValue);
-      changeQueryParams({...queryParams, order: getOrderPrefix(eventValue, sortBy)});
+      changeQueryParams({...queryParams, ordering: getOrderPrefix(eventValue, sortBy)});
     } else {
       setOrderParam(DEFAULT_ORDER_PARAM);
-      changeQueryParams({ ...queryParams, order: getOrderPrefix(DEFAULT_ORDER_PARAM, sortBy)})
+      changeQueryParams({ ...queryParams, ordering: getOrderPrefix(DEFAULT_ORDER_PARAM, sortBy)})
     }
   }
 
   const handleSortByClick = () => {
-    changeQueryParams({...queryParams, order: getOrderPrefix(orderParam, !sortBy)});
+    changeQueryParams({...queryParams, ordering: getOrderPrefix(orderParam, !sortBy)});
     setSortBy(!sortBy);
   }
 
