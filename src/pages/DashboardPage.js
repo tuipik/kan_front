@@ -1,9 +1,10 @@
 import { useSelector } from "react-redux"
 import { useFetchTasksQuery } from "../store";
-import DashboardColumnTable from "../components/DashboardColumnTable";
 import TaskCreation from "../components/task/TaskCreation";
 import {useState} from "react";
 import TaskSievePanel from "../components/task/TaskSievePanel";
+import TaskDetails from "../components/task/TaskDetails";
+import Table from "../components/custom/table/Table";
 
 function DashboardPage() {
 
@@ -30,47 +31,34 @@ function DashboardPage() {
     content = <div style={{color: 'red'}}>Помилка завантаження задач</div>
   } else {
     const dashboardTablesData = [
-      {
-        name: "Задачі",
-        columns: [
-          { name: columnName("Очікування", "EDITING_QUEUE"), status: "EDITING_QUEUE" },
-          { name: columnName("В роботі", "EDITING"), status: "EDITING" }]
-      },
-      {
-        name: "Коректування",
-        columns: [
-          { name: columnName("Очікування", "CORRECTING_QUEUE"), status: "CORRECTING_QUEUE" },
-          { name: columnName("В роботі", "CORRECTING"), status: "CORRECTING" }]
-      },
-      {
-        name: "ВТК",
-        columns: [
-          { name: columnName("Очікування", "TC_QUEUE"), status: "TC_QUEUE" },
-          { name: columnName("В роботі", "TC"), status: "TC" }]
-      },
-      {
-        name: "Завершено",
-        columns: [{ name: columnName("Виконано", "DONE"), status: "DONE" }]
-      }
+      { name: columnName("Очікування задачі", "EDITING_QUEUE"), status: "EDITING_QUEUE" },
+      { name: columnName("Задачі в роботі", "EDITING"), status: "EDITING" },
+      { name: columnName("Очікування коректування", "CORRECTING_QUEUE"), status: "CORRECTING_QUEUE" },
+      { name: columnName("Коректування в роботі", "CORRECTING"), status: "CORRECTING" },
+      { name: columnName("Очікування ВТК", "TC_QUEUE"), status: "TC_QUEUE" },
+      { name: columnName("ВТК в роботі", "TC"), status: "TC" },
+      { name: columnName("Виконано", "DONE"), status: "DONE" },
     ];
 
-    const renderedDashboardTables = dashboardTablesData.map((table) => {
-      const tableData = data.data.filter((task) => {
-        const tableStatuses = table.columns.map((column) => column.status);
-        return tableStatuses.includes(task.status);
-      });
-      return <DashboardColumnTable
-        key={table.name}
-        tableName={table.name}
-        columns={table.columns}
-        data={tableData}
-      />
+
+    const config = dashboardTablesData.map((column) => {
+      return {
+        label: column.name,
+        render: (task) => {
+          if (task.status === column.status)
+            return <TaskDetails task={task} />
+        }
+      }
     });
 
     content =
-      <div className="row">
-        {renderedDashboardTables}
-      </div>
+      <Table
+        data={data.data}
+        config={config}
+        keyFn={(task) => task.id}
+        equalColumns={true}
+        classes="table table-bordered table-striped"
+      />
   };
 
   return (
