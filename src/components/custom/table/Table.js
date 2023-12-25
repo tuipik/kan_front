@@ -5,6 +5,7 @@ function Table({ data, config, keyFn, classes, equalColumns}) {
     if (column.header) {
       return <Fragment key={column.label}>{column.header()}</Fragment>;
     }
+
     return equalColumns
       ? <th key={column.label} style={{width: `${100/config.length}%`}}>
         {column.label}
