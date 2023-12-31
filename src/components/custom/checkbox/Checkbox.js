@@ -1,5 +1,3 @@
-import {useState} from "react";
-
 export default function Checkbox({value, id, onChange, label}) {
 
   return (
