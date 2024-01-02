@@ -30,6 +30,18 @@ const getTaskStyles = (task) => {
   if (task.status === 'DONE') {
     styles.background = "rgb(179 204, 204)";
   }
+  // Check is corrector return to editor
+  if (
+    ['EDITING_QUEUE', 'EDITING'].includes(task.status) &&
+    task.involved_users.length > 1
+  ) {
+    for(const user of task.involved_users) {
+      if (user.role === 'CORRECTOR') {
+        styles.background = "rgb(205 209 30 / 0.73)";
+        break;
+      }
+    }
+  }
 
   setOverdueStyles(styles,['WAITING', 'IN_PROGRESS'], task, 'change');
   setOverdueStyles(styles, ['CORRECTING_QUEUE', 'CORRECTING'], task, 'correct');
