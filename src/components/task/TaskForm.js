@@ -135,11 +135,11 @@ function TaskForm({handleClose, incomeTask, formType}) {
       required: true
     },
     {
-      label: "Час на оновлення",
+      label: "Час на виконання",
       id: "editing_time_estimate",
       value: task.editing_time_estimate,
       type: "number",
-      min: 3,
+      min: 0,
       max: 2000,
       required: true,
     },
@@ -148,16 +148,16 @@ function TaskForm({handleClose, incomeTask, formType}) {
       id: "correcting_time_estimate",
       value: task.correcting_time_estimate,
       type: "number",
-      min: 3,
+      min: 0,
       max: 2000,
       required: true,
     },
     {
-      label: "Час на ВТК",
+      label: "Час на ТК",
       id: "tc_time_estimate",
       value: task.tc_time_estimate,
       type: "number",
-      min: 3,
+      min: 0,
       max: 2000,
       required: true,
     }
@@ -186,15 +186,6 @@ function TaskForm({handleClose, incomeTask, formType}) {
         data: settings?.YEAR_QUARTERS,
         isFetching: isFetchingSettings,
         label: "квартал",
-        error: settingsError,
-      },
-      {
-        id: "scale",
-        value: task.scale,
-        onChange: handleScaleChange,
-        data: settings?.TASK_SCALES,
-        isFetching: isFetchingSettings,
-        label: "масштаб",
         error: settingsError,
       },
     );
@@ -254,8 +245,24 @@ function TaskForm({handleClose, incomeTask, formType}) {
     rerenderSelects();
   }
 
+  const scaleData = {
+    id: "scale",
+    value: task.scale,
+    onChange: handleScaleChange,
+    data: settings?.TASK_SCALES,
+    isFetching: isFetchingSettings,
+    label: "масштаб",
+    error: settingsError,
+  };
+  const scaleSelect = <Select
+    {...scaleData}
+    key="scale"
+    error={settingsError}
+  />;
+
   return (
     <form onSubmit={handleSubmit}>
+      {scaleSelect}
       {currentUser.is_admin && renderedInputs}
       <div key={selectsKey}>{renderedSelects}</div>
       <button

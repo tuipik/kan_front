@@ -5,8 +5,11 @@ import {useState} from "react";
 import TaskSievePanel from "../components/task/TaskSievePanel";
 import TaskDetails from "../components/task/TaskDetails";
 import Table from "../components/custom/table/Table";
+import useSettings from "../hooks/use-settings";
 
 function DashboardPage() {
+
+  const {settings, isFetchingSettings, settingsError} = useSettings();
 
   const isAdmin = useSelector((state) => state.auth.data.is_admin);
 
@@ -30,16 +33,12 @@ function DashboardPage() {
   } else if (error) {
     content = <div style={{color: 'red'}}>Помилка завантаження задач</div>
   } else {
-    const dashboardTablesData = [
-      { name: columnName("Очікування задачі", "EDITING_QUEUE"), status: "EDITING_QUEUE" },
-      { name: columnName("Задачі в роботі", "EDITING"), status: "EDITING" },
-      { name: columnName("Очікування коректування", "CORRECTING_QUEUE"), status: "CORRECTING_QUEUE" },
-      { name: columnName("Коректування в роботі", "CORRECTING"), status: "CORRECTING" },
-      { name: columnName("Очікування ВТК", "TC_QUEUE"), status: "TC_QUEUE" },
-      { name: columnName("ВТК в роботі", "TC"), status: "TC" },
-      { name: columnName("Виконано", "DONE"), status: "DONE" },
-    ];
-
+    const dashboardTablesData = settings?.TASK_STATUSES && Object.entries(
+      settings.TASK_STATUSES).map(
+        ([status, translation]) => {
+          return { name: columnName(translation, status), status};
+        }
+      );
 
     const config = dashboardTablesData.map((column) => {
       return {
