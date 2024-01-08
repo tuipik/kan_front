@@ -68,7 +68,17 @@ const tasksApi = createApi({
           }
         },
         invalidatesTags: (result, error) => error ? [] : ['Comments'],
-      })
+      }),
+      deleteComment: builder.mutation({
+        query: ( comment ) => {
+          return {
+            url: `comments/${comment.id}`,
+            method: 'DELETE',
+          }
+        },
+        invalidatesTags: (result, error) => error ? [] : ['Comments'],
+      }),
+
     }
   }
 });
@@ -79,7 +89,8 @@ export const {
   useUpdateTaskMutation,
   useDeleteTaskMutation,
   useFetchCommentsQuery,
-  useCreateCommentMutation
+  useCreateCommentMutation,
+  useDeleteCommentMutation,
 } = tasksApi;
 
 export { tasksApi };
