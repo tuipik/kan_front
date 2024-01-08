@@ -12,6 +12,7 @@ import {UPDATE_TYPE} from "./TaskForm";
 import {useState} from "react";
 import {useSelector} from "react-redux";
 import {Card} from "react-bootstrap";
+import Insignia from "./insignia/Insignia";
 
 const setOverdueStyles = (styles, statuses, task, prefix) => {
   const doneTimeKey = `${prefix}_time_done`;
@@ -54,7 +55,7 @@ export default function TaskDetails({ task }) {
 
   const {show: showModal, handleShow: handleShowModal, handleClose: handleCloseModal} = useShow();
   const [showEditForm, setShowEditForm] = useState(false);
-  const [doDeleteTask, taskData] = useDeleteTaskMutation();
+  const [doDeleteTask] = useDeleteTaskMutation();
   const showSuccess = useShowSuccess();
   const { data: {is_admin, department} } = useSelector((state) => {
     return state.auth;
@@ -108,6 +109,7 @@ export default function TaskDetails({ task }) {
       <Card.Body style={getTaskStyles(task)}>
         <Card.Text>
           <Link to="#" onClick={handleShowModal}>{task.name} ({task.category})</Link>
+          <Insignia task={task} />
         </Card.Text>
       </Card.Body>
     </Card>;

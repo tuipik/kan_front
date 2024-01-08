@@ -16,6 +16,7 @@ export default function TaskSievePanel({ queryParams, changeQueryParams }) {
   const [orderParam, setOrderParam] = useState(DEFAULT_ORDER_PARAM);
 
   const [quarters, setQuarters] = useState(new Set(['1', '2', '3', '4']));
+  const [scales, setScales] = useState(null);
   const [onlyMyTasks, setOnlyMyTask] = useState(false);
 
   const {data: currentUser} = useSelector(state =>  state.auth);
@@ -94,6 +95,9 @@ export default function TaskSievePanel({ queryParams, changeQueryParams }) {
     handleSelectChange(event, setYear, 'year');
   };
 
+  const handleScaleChange = (event) => {
+    handleSelectChange(event, setScales, 'scale');
+  };
 
   return (
     <div className="task-panel">
@@ -164,6 +168,20 @@ export default function TaskSievePanel({ queryParams, changeQueryParams }) {
             isFetching={isFetchingSettings}
             label="рік"
             firstOption="всі роки"
+            error={settingsError}
+            skipFirstOptionDashes={true}
+            skipChoiceWord={true}
+          />}
+        </div>
+        <div className="col-2">
+          {settings?.TASK_SCALES && <Select
+            id="scales"
+            value={scales}
+            onChange={handleScaleChange}
+            data={settings.TASK_SCALES}
+            isFetching={isFetchingSettings}
+            label="масштаб"
+            firstOption="всі масштаби"
             error={settingsError}
             skipFirstOptionDashes={true}
             skipChoiceWord={true}
