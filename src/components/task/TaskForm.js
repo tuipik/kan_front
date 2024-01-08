@@ -121,7 +121,7 @@ function TaskForm({handleClose, incomeTask, formType}) {
       label: "Рік",
       id: "year",
       type: "number",
-      value: task.year,
+      value: task.year || new Date().getFullYear(),
       required: true
     },
     {
