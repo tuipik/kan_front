@@ -16,11 +16,12 @@ export default function TaskMainInfo({ task }) {
   return (
     <div className="col">
       {showUser && <div><b>Виконавець: </b><UserInfo data={task.user_obj} /></div>}
-      <div><b>Рік: </b>{task.year}</div>
+      <div><b>Відділ: </b>{task.department_obj.name}</div>
       <div><b>Категорія: </b>{task.category}</div>
-      <div><b>Квартал: </b>{task.quarter_display_value}</div>
       <div><b>Масштаб: </b>{task.scale_display_value}</div>
       <div><b>Статус: </b>{taskStatusTranslation}</div>
+      <div><b>Рік: </b>{task.year}</div>
+      <div><b>Квартал: </b>{task.quarter_display_value}</div>
       <div><b>Створено: </b><i>{task.created}</i></div>
       <div><b>Оновлено: </b><i>{task.updated}</i></div>
       <div><b>Задіяні користувачі: </b><i>{involvedUsers.join()}</i></div>

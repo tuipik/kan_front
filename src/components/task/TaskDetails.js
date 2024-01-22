@@ -13,6 +13,7 @@ import {useState} from "react";
 import {useSelector} from "react-redux";
 import {Card} from "react-bootstrap";
 import Insignia from "./insignia/Insignia";
+import TaskProgressBar from "./TaskProgressBar";
 
 const setOverdueStyles = (styles, statuses, task, prefix) => {
   const doneTimeKey = `${prefix}_time_done`;
@@ -108,7 +109,10 @@ export default function TaskDetails({ task }) {
     <Card>
       <Card.Body style={getTaskStyles(task)}>
         <Card.Text>
-          <Link to="#" onClick={handleShowModal}>{task.name} ({task.category})</Link>
+          <Link to="#" onClick={handleShowModal} style={{ textDecoration: 'none' }}>
+            <div>{task.name} ({task.category}) </div>
+            <TaskProgressBar task={task} />
+          </Link>
           <Insignia task={task} />
         </Card.Text>
       </Card.Body>
