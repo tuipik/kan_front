@@ -140,7 +140,7 @@ export default function TaskSievePanel({ queryParams, changeQueryParams }) {
             id="onlyMyTasks"
           />}
         </div>
-        {currentUser.is_admin && <div className="col-2">
+        <div className="col-2">
           <Select
             id="department"
             value={department}
@@ -156,7 +156,7 @@ export default function TaskSievePanel({ queryParams, changeQueryParams }) {
             skipFirstOptionDashes={true}
             skipChoiceWord={true}
           />
-        </div>}
+        </div>
         <div className="col-2">
           {settings?.POSSIBLE_TASK_YEARS && <Select
             id="year"
