@@ -110,10 +110,12 @@ export default function TaskDetails({ task }) {
       <Card.Body style={getTaskStyles(task)}>
         <Card.Text>
           <Link to="#" onClick={handleShowModal} style={{ textDecoration: 'none' }}>
-            <div>{task.name} ({task.category}) </div>
+            <div>
+              <span>{task.name} ({task.category})</span>
+              <Insignia task={task} />
+            </div>
             <TaskProgressBar task={task} />
           </Link>
-          <Insignia task={task} />
         </Card.Text>
       </Card.Body>
     </Card>;
