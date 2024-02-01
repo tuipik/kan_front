@@ -1,9 +1,10 @@
+import './task.css';
+import {TaskProgressService} from "../../services/taskProgress";
+
 export default function TaskProgressBar({ task }) {
 
-  const totalDoneHours = task.editing_time_done + task.correcting_time_done + task.tc_time_done;
-  const totalEstimateHours = task.editing_time_estimate + task.correcting_time_estimate + task.tc_time_estimate;
-
-  let progressPercentage = Math.round( totalDoneHours * 100 / totalEstimateHours);
+  const taskProgressService = new TaskProgressService(task);
+  let progressPercentage = taskProgressService.percentageProgress;
 
   return <div style={{ display: 'flex', alignItems: 'center' }}>
     <progress max={100} value={progressPercentage} />
