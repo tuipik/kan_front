@@ -14,43 +14,7 @@ import {useSelector} from "react-redux";
 import {Card} from "react-bootstrap";
 import Insignia from "./insignia/Insignia";
 import TaskProgressBar from "./TaskProgressBar";
-
-const setOverdueStyles = (styles, statuses, task, prefix) => {
-  const doneTimeKey = `${prefix}_time_done`;
-  const estimateTimeKey = `${prefix}_time_estimate`;
-  if (statuses.includes(task.status) && task[doneTimeKey] >= task[estimateTimeKey]){
-    styles.background = 'rgb(256 0 0 / 0.4)';
-  }
-}
-
-const getTaskStyles = (task) => {
-  const styles = {display: "flex", justifyContent: "center", padding: 8};
-
-  if (['EDITING', 'CORRECTING', 'VTK'].includes(task.status)) {
-    styles.background = "rgb(67 208 72 / 0.25)";
-  }
-  if (task.status === 'DONE') {
-    styles.background = "rgb(179 204, 204)";
-  }
-  // Check is corrector return to editor
-  if (
-    ['EDITING_QUEUE', 'EDITING'].includes(task.status) &&
-    task.involved_users.length > 1
-  ) {
-    for(const user of task.involved_users) {
-      if (user.role === 'CORRECTOR') {
-        styles.background = "rgb(205 209 30 / 0.73)";
-        break;
-      }
-    }
-  }
-
-  setOverdueStyles(styles,['EDITING_QUEUE', 'EDITING'], task, 'editing');
-  setOverdueStyles(styles, ['CORRECTING_QUEUE', 'CORRECTING'], task, 'correcting');
-  setOverdueStyles(styles, ['VTK_QUEUE', 'VTK'], task, 'tc');
-
-  return styles;
-}
+import {CardStyleService} from "../../services/cardStyle";
 
 export default function TaskDetails({ task }) {
 
@@ -105,9 +69,11 @@ export default function TaskDetails({ task }) {
 
   const renderedFooter = <Button variant="primary" onClick={hideEditTask}>Закрити</Button>;
 
+  const cardStylesService = new CardStyleService(task);
+
   const renderedTrigger =
     <Card>
-      <Card.Body style={getTaskStyles(task)}>
+      <Card.Body style={cardStylesService.styles}>
         <Card.Text>
           <Link to="#" onClick={handleShowModal} style={{ textDecoration: 'none' }}>
             <div>
