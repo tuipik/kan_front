@@ -26,7 +26,7 @@ const setOverdueStyles = (styles, statuses, task, prefix) => {
 const getTaskStyles = (task) => {
   const styles = {display: "flex", justifyContent: "center", padding: 8};
 
-  if (['IN_PROGRESS', 'CORRECTING', 'VTK'].includes(task.status)) {
+  if (['EDITING', 'CORRECTING', 'VTK'].includes(task.status)) {
     styles.background = "rgb(67 208 72 / 0.25)";
   }
   if (task.status === 'DONE') {
@@ -45,9 +45,9 @@ const getTaskStyles = (task) => {
     }
   }
 
-  setOverdueStyles(styles,['WAITING', 'IN_PROGRESS'], task, 'change');
-  setOverdueStyles(styles, ['CORRECTING_QUEUE', 'CORRECTING'], task, 'correct');
-  setOverdueStyles(styles, ['VTK_QUEUE', 'VTK'], task, 'vtk');
+  setOverdueStyles(styles,['EDITING_QUEUE', 'EDITING'], task, 'editing');
+  setOverdueStyles(styles, ['CORRECTING_QUEUE', 'CORRECTING'], task, 'correcting');
+  setOverdueStyles(styles, ['VTK_QUEUE', 'VTK'], task, 'tc');
 
   return styles;
 }
