@@ -14,7 +14,7 @@ progress[value] {
 
     /* Get rid of default border in Firefox. */
     border: none;
-    width: 250px;
+    width: 150px;
     height: 4px;
 }
 
